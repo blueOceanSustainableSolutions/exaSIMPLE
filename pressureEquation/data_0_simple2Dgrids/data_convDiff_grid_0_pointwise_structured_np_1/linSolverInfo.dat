@@ -1,0 +1,3 @@
+TITLE=" Number of used Iterations for all equations for all iterations"
+VARIABLES=              "TotalIter"        "TimeStep"       "OuterLoop"       "VelocityX"       "VelocityY"       "VelocityZ"        "Pressure" 
+         1         0         1         3         3         0         9
