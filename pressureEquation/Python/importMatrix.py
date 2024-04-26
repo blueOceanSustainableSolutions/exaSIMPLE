@@ -40,27 +40,27 @@ def readPetscVector(filename):
 
 # JMuralha - read PETSc matrix in a usable format to be used using petsc4py
 def convert_coo_to_petsc(A, comm):
-  petsc_mat = PETSc.Mat()
-  petsc_mat.create(comm=comm)
-  petsc_mat.setSizes((A.tocsr().shape[1],A.tocsr().shape[1]))
-  petsc_mat.setType(PETSc.Mat.Type.AIJ)   
-  rstart, rend = petsc_mat.getOwnershipRange()
-  petsc_mat.createAIJ(size=(A.tocsr().shape), csr=(A.tocsr().indptr[rstart:rend+1] - A.tocsr().indptr[rstart], 
-                                                    A.tocsr().indices[A.tocsr().indptr[rstart]:A.tocsr().indptr[rend]], 
-                                                    A.tocsr().data[A.tocsr().indptr[rstart]:A.tocsr().indptr[rend]]))
+    petsc_mat = PETSc.Mat()
+    petsc_mat.create(comm=comm)
+    petsc_mat.setSizes((A.tocsr().shape[1],A.tocsr().shape[1]))
+    petsc_mat.setType(PETSc.Mat.Type.AIJ)   
+    rstart, rend = petsc_mat.getOwnershipRange()
+    petsc_mat.createAIJ(size=(A.tocsr().shape), csr=(A.tocsr().indptr[rstart:rend+1] - A.tocsr().indptr[rstart], 
+                                                        A.tocsr().indices[A.tocsr().indptr[rstart]:A.tocsr().indptr[rend]], 
+                                                        A.tocsr().data[A.tocsr().indptr[rstart]:A.tocsr().indptr[rend]]))
 
-  petsc_mat.assemblyBegin()
-  petsc_mat.assemblyEnd()
-   
-  return petsc_mat
+    petsc_mat.assemblyBegin()
+    petsc_mat.assemblyEnd()
+    
+    return petsc_mat
 
 def readPetscMatrix_binary(filename, comm):
-  petsc_mat = PETSc.Mat()
-  petsc_mat.create(comm=comm)
-  petsc_mat.setType(PETSc.Mat.Type.AIJ)   
-  
-  #viewer = PETSc.Viewer().createBinary('teste.dat', mode=PETSc.Viewer.Mode.READ, comm=comm)
-  viewer = PETSc.Viewer().createMPIIO(filename, mode=PETSc.Viewer.Mode.READ, comm=comm)
-  petsc_mat.load(viewer)
+    petsc_mat = PETSc.Mat()
+    petsc_mat.create(comm=comm)
+    petsc_mat.setType(PETSc.Mat.Type.AIJ)   
+    
+    #viewer = PETSc.Viewer().createBinary('teste.dat', mode=PETSc.Viewer.Mode.READ, comm=comm)
+    viewer = PETSc.Viewer().createMPIIO(filename, mode=PETSc.Viewer.Mode.READ, comm=comm)
+    petsc_mat.load(viewer)
 
-  return petsc_mat
+    return petsc_mat
