@@ -80,6 +80,7 @@ def solveWithCustomPC(A_petsc, b, precond=None, rtol=1e-3, atol=1e-3, verbose=Fa
         print("    Linf Norm:", linf_norm_petsc)
         print("  Time assemble + solve: " + str(end_time-start_time_1))
         print("  Time solve: " + str(end_time-start_time_2))
+        print("")
 
     ksp.destroy()
     pc.destroy()
@@ -199,13 +200,22 @@ comm.barrier()
 # Select the case to load the data for.
 
 # Data from the Weymouth (2020) paper.
-case = "../data_3_Weymouth2020/data_Nc_32_2D-sphere_1"
-A = importMatrix.readPetscMatrix(case+"_A.dat")
-b = importMatrix.readPetscVector(case+"_b.dat")
+#tol = 1e-3
+#case = "data_Nc_32_2D-sphere_1"
+#A = importMatrix.readPetscMatrix(os.path.join("../data_3_Weymouth2020", case+"_A.dat"))
+#b = importMatrix.readPetscVector(os.path.join("../data_3_Weymouth2020", case+"_b.dat"))
 
 # ReFRESCO data.
-#A = importMatrix.readPetscMatrix("../data_2_verificationSuiteCases/case_00_ist_curved_grid_ist_curved_201/a_mat_massTransport_outerloop_100.dat")
-#b = importMatrix.readPetscVector("../data_2_verificationSuiteCases/case_00_ist_curved_grid_ist_curved_201/b_vec_massTransport_outerloop_100.dat")
+#case = "case_00_ist_curved_grid_ist_curved_201"; tol = 1e-8  # No big difference between tuned and pure Jacobi
+#case = "case_01_ist_plate_grid_ist_plate_801"; tol = 1e-8  # No big difference between tuned and pure Jacobi
+#case = "case_02_Poiseuille_ogrid_rect-veryfine"; tol = 1e-8  # Tuned performs worse than pure Jacobi
+#case = "case_03_Taylor_vortex_hgrid_h-box_128x128"; tol = 1e-8  # Tuned better than pure
+case = "case_04_Taylor_vortex_ogrid_cube-veryfine"; tol = 1e-8  # Tuned better than pure
+# Read the matricers and multiply both sides by -1 to match Gabe's covnention (for now)
+A = importMatrix.readPetscMatrix(os.path.join("../data_2_verificationSuiteCases", case, "a_mat_massTransport_outerloop_1.dat"))
+b = importMatrix.readPetscVector(os.path.join("../data_2_verificationSuiteCases", case, "b_vec_massTransport_outerloop_1.dat"))
+A *= -1.
+b *= -1.
 
 # Convert Matrix from COO format to PETSc format
 A_petsc = importMatrix.convert_coo_to_petsc(A, comm)
@@ -216,14 +226,18 @@ A_petsc.viewFromOptions('-view_mat')
 # Solve using different preconditioners.
 keys = ["x", "res", "L1", "Linf", "time"]
 results = {
-    "PETSc Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b))),
-    "Pure Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=JacobiPC))),
-    "Tuned Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=TunedJacobiPC, verbose=True))),
+    "PETSc Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, rtol=tol, atol=tol))),
+    "Pure Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=JacobiPC, rtol=tol, atol=tol))),
+    "Tuned Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=TunedJacobiPC, verbose=True, rtol=tol, atol=tol))),
 }
 
 # ===
 # Post-processing.
 if comm.Get_rank() == 0:
+    print("Solution time in seconds:")
+    for pc in results:
+        print("  ", pc, results[pc]["time"])
+        
     # Plot PETSc solver residuals 
     fig, ax = nF.niceFig("Iteration", "Residual")
     plt.yscale("log")
@@ -234,5 +248,6 @@ if comm.Get_rank() == 0:
             ls = "-"; lw = 2; alpha = 1.
         ax.plot(range(len(results[pc]["res"])), results[pc]["res"], ls, lw=lw, alpha=alpha, label=pc)
     ax.legend()
+    #plt.savefig("../Figures_2_tunedJacobiTests/residuals_{}.png".format(case), dpi=200, bbox_inches="tight")
     
     plt.show()
