@@ -4,88 +4,14 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from scipy.sparse import coo_matrix 
 from scipy.sparse.linalg import spsolve
-import niceFigures as nF
-import importMatrix
 import sys
 import petsc4py
 from petsc4py import PETSc
 from mpi4py import MPI
 
-# ===
-# Solution routine.
-def solveWithCustomPC(A_petsc, b, precond=None, rtol=1e-3, atol=1e-3, verbose=False):
-    comm = MPI.COMM_WORLD
-    rank = comm.Get_rank()
-
-    if verbose and (rank == 0):
-        print("Solving using", precond)
-    
-    start_time_1 = MPI.Wtime()
-
-    # Create KSP object
-    ksp = PETSc.KSP()
-    ksp.create(comm=A_petsc.getComm())
-    ksp.setOperators(A_petsc, A_petsc)
-    ksp.setType(PETSc.KSP.Type.CG)
-
-    # Solution control.
-    ksp.setIterationNumber(100)
-    ksp.setTolerances(rtol=rtol, atol=atol)
-
-    # convergence history plot
-    ksp.setConvergenceHistory(ksp.getIterationNumber())
-
-    if precond is None:
-        # Create a built-in preconditioner
-        #pc = PETSc.PC().create()
-        #pc.setOperators(A_petsc)
-        pc = ksp.getPC()
-        pc.setType(PETSc.PC.Type.JACOBI)
-        #ksp.setPC(pc)
-    else:
-        # Create own preconditioner
-        #pc = ksp.pc
-        pc = ksp.getPC()
-        pc.setType(pc.Type.PYTHON)
-        pc.setPythonContext(precond())
-        ksp.setFromOptions()
-
-    # Create solution and right hand side vector
-    x_petsc, b_petsc = A_petsc.createVecs()
-    b_petsc.setValues(range(len(b)), b)
-    b_petsc.assemblyBegin()
-    b_petsc.assemblyEnd()
-
-    # Solve
-    start_time_2 = MPI.Wtime() 
-    ksp.solve(b_petsc, x_petsc)
-    end_time = MPI.Wtime()
-    
-    # Compute residuals.
-    residuals_petsc = ksp.buildResidual()
-    l1_norm_petsc = residuals_petsc.norm(norm_type=PETSc.NormType.NORM_1)
-    linf_norm_petsc = residuals_petsc.norm(norm_type=PETSc.NormType.NORM_INFINITY)
-
-    # Extract convergence history  
-    res_petsc = ksp.getConvergenceHistory()
-
-    # Extract solution.
-    x_petsc = comm.gather(x_petsc.getArray(), root=0)
-
-    # Print the norms
-    if (rank == 0) and verbose:
-        x_petsc = np.concatenate(x_petsc, axis=0)
-        print("  PETSc Residuals")
-        print("    L1 Norm:", l1_norm_petsc)
-        print("    Linf Norm:", linf_norm_petsc)
-        print("  Time assemble + solve: " + str(end_time-start_time_1))
-        print("  Time solve: " + str(end_time-start_time_2))
-        print("")
-
-    ksp.destroy()
-    pc.destroy()
-
-    return x_petsc, res_petsc, l1_norm_petsc, linf_norm_petsc, (end_time-start_time_2)
+import niceFigures as nF
+import petscMatrixInterface
+from petscWrappers import solveWithCustomPC
 
 # ===
 # Candidate preconditioners.
@@ -202,8 +128,8 @@ comm.barrier()
 # Data from the Weymouth (2020) paper.
 #tol = 1e-3
 #case = "data_Nc_32_2D-sphere_1"
-#A = importMatrix.readPetscMatrix(os.path.join("../data_3_Weymouth2020", case+"_A.dat"))
-#b = importMatrix.readPetscVector(os.path.join("../data_3_Weymouth2020", case+"_b.dat"))
+#A = petscMatrixInterface.readPetscMatrix(os.path.join("../data_3_Weymouth2020", case+"_A.dat"))
+#b = petscMatrixInterface.readPetscVector(os.path.join("../data_3_Weymouth2020", case+"_b.dat"))
 
 # ReFRESCO data.
 #case = "case_00_ist_curved_grid_ist_curved_201"; tol = 1e-8  # No big difference between tuned and pure Jacobi
@@ -212,23 +138,26 @@ comm.barrier()
 #case = "case_03_Taylor_vortex_hgrid_h-box_128x128"; tol = 1e-8  # Tuned better than pure
 case = "case_04_Taylor_vortex_ogrid_cube-veryfine"; tol = 1e-8  # Tuned better than pure
 # Read the matricers and multiply both sides by -1 to match Gabe's covnention (for now)
-A = importMatrix.readPetscMatrix(os.path.join("../data_2_verificationSuiteCases", case, "a_mat_massTransport_outerloop_1.dat"))
-b = importMatrix.readPetscVector(os.path.join("../data_2_verificationSuiteCases", case, "b_vec_massTransport_outerloop_1.dat"))
+A = petscMatrixInterface.readPetscMatrix(os.path.join("../data_2_verificationSuiteCases", case, "a_mat_massTransport_outerloop_1.dat"))
+b = petscMatrixInterface.readPetscVector(os.path.join("../data_2_verificationSuiteCases", case, "b_vec_massTransport_outerloop_1.dat"))
 A *= -1.
 b *= -1.
 
 # Convert Matrix from COO format to PETSc format
-A_petsc = importMatrix.convert_coo_to_petsc(A, comm)
+A_petsc = petscMatrixInterface.convert_coo_to_petsc(A, comm)
+b_petsc, _ = A_petsc.createVecs()
+b_petsc.setValues(range(len(b)), b)
+b_petsc.assemblyBegin()
+b_petsc.assemblyEnd()
 
 # View matrix from command line using -view_mat option 
 A_petsc.viewFromOptions('-view_mat')
 
 # Solve using different preconditioners.
-keys = ["x", "res", "L1", "Linf", "time"]
 results = {
-    "PETSc Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, rtol=tol, atol=tol))),
-    "Pure Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=JacobiPC, rtol=tol, atol=tol))),
-    "Tuned Jacobi": dict(zip(keys, solveWithCustomPC(A_petsc, b, precond=TunedJacobiPC, verbose=True, rtol=tol, atol=tol))),
+    "PETSc Jacobi": solveWithCustomPC(A_petsc, b_petsc, rtol=tol, atol=tol),
+    "Pure Jacobi": solveWithCustomPC(A_petsc, b_petsc, precond=JacobiPC, rtol=tol, atol=tol),
+    "Tuned Jacobi": solveWithCustomPC(A_petsc, b_petsc, precond=TunedJacobiPC, verbose=True, rtol=tol, atol=tol),
 }
 
 # ===
