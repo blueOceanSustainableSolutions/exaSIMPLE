@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<controls>
+  <general>
+    <codeVersion>2024.3</codeVersion>
+    <name>LDCF</name>
+    <description>auto created by maketestsuite.pl</description>
+    <material>testsuiteFluid</material>
+    <suppressOutput>false</suppressOutput>
+    <referenceLength>1.0</referenceLength>
+    <referenceMaterial>testsuiteFluid</referenceMaterial>
+    <referenceVelocity>1.0</referenceVelocity>
+    <referencePressure>0.0</referencePressure>
+    <outFileName>out</outFileName>
+    <outFilePath>.</outFilePath>
+    <outputH5M>true</outputH5M>
+    <readCgnsDirectly>true</readCgnsDirectly>
+    <caseid>15x15x1</caseid>
+  </general>
+  	
+  	<userCode>
+		<saveMatrix>
+            <outputFile>testMatrix_grid_3_pointwise_triOrdered_channel</outputFile>
+            <saveAtIter>1</saveAtIter>
+		</saveMatrix>
+	</userCode>
+	
+  <grids>
+    <grid>
+      <gridFilePath>../grids</gridFilePath>
+      <gridFileName>grid_3_pointwise_triOrdered_refresco</gridFileName>
+    </grid>
+  </grids>
+  
+  <outerLoop>
+    <maxIteration>1</maxIteration>
+    <convergenceToleranceLinf>1e-7</convergenceToleranceLinf>
+  </outerLoop>
+  
+  <equations>
+    <equation name="mome">
+      <EQMomentum>
+        <solve_z>false</solve_z>
+        <convectiveFluxDiscretisation>
+          <FOU_CDS_BLEND><blendingFactor>0</blendingFactor></FOU_CDS_BLEND>
+        </convectiveFluxDiscretisation>
+        <relaxationProcedure>
+          <IMPLICIT_EXPLICIT>
+            <imp_relax_min>0.9</imp_relax_min>
+            <imp_relax_max>0.9</imp_relax_max>
+            <imp_relax_fac>1</imp_relax_fac>
+            <exp_relax>0.5</exp_relax>
+          </IMPLICIT_EXPLICIT>
+        </relaxationProcedure>
+        <gradientCalculation>
+          <GAUSS> </GAUSS>
+        </gradientCalculation>
+        <initialization>
+          <USER_DEFINED>
+            <initialVelocity userCode="false">0.0 0.0 0.0</initialVelocity>
+            <referenceSystem>BODY_FIXED</referenceSystem>
+          </USER_DEFINED>
+        </initialization>
+      </EQMomentum>
+    </equation>
+    <equation name="pres">
+      <EQPressure>
+        <pressureReference>0.</pressureReference>
+        <relaxationProcedure>
+          <EXPLICIT>
+            <exp_relax>0.25</exp_relax>
+          </EXPLICIT>
+        </relaxationProcedure>
+        <pressureReferencePosition>-0.5 -0.5 0.25</pressureReferencePosition>
+        <initialPressure userCode="false">0.0</initialPressure>
+        <solver>
+            <PETSC>
+                <solver>GMRES</solver>
+                <preconditioner>BJACOBI</preconditioner>
+            </PETSC>
+        </solver>
+      </EQPressure>
+    </equation>
+  </equations>
+  <bodyForces/>
+  <extraQuantities/>
+  <monitors>
+  </monitors>
+  <coprocessing/>
+  <developer>
+    <linSolver_outputInfo>true</linSolver_outputInfo>
+  </developer>
+  <fsi/>
+  <boundaries>
+    <family name="XMIN">
+      <BCWall>
+        <velocity>1 0 0</velocity>
+      </BCWall>
+    </family>
+    <family name="XMAX">
+      <BCPressure/>
+    </family>
+    <family name="YMIN">
+      <BCWall/>
+    </family>
+    <family name="YMAX">
+      <BCWall/>
+    </family>
+
+    <family name="ZSYM">
+      <BCSymmetryPlane>
+        <extrapolationOrder>0</extrapolationOrder>
+      </BCSymmetryPlane>
+    </family>
+  </boundaries>
+  <deformGrid/>
+  <adaptiveGrid/>
+  <massMomentumSolver>
+    <solverType name="SEGREGATED">
+      <segregated>
+        <solver>FRESCO</solver>
+      </segregated>
+    </solverType>
+  </massMomentumSolver>
+  <materials>
+    <material name="testsuiteFluid">
+      <fluid>
+        <viscosityMolecular>1.0e-3</viscosityMolecular>
+        <density>1.e0</density>
+      </fluid>
+    </material>
+  </materials>
+</controls>

@@ -1,0 +1,36 @@
+
+ Initializing usercode from /home/alidtke/ReFRESCO/calcs/matrixExport/calcs/case_00_ist_curved_grid_ist_curved_051/./usercode/usercode.so
+
+ Usercode subroutine found: post_init3
+ Usercode subroutine found: post_init4
+ Usercode subroutine found: post_init5
+ Usercode subroutine found: post_initial
+ Usercode subroutine found: post_read_controls
+ Usercode subroutine found: post_restart
+ Usercode subroutine found: post_final
+ Usercode subroutine found: post_exit
+ Usercode subroutine found: post_outit
+ Usercode subroutine found: post_adaptit
+ Usercode subroutine found: post_timestep
+ Usercode subroutine found: set_phi_init3
+ Usercode subroutine found: set_phi_init4
+ Usercode subroutine found: set_phi_init5
+ Usercode subroutine found: set_phi_initial
+ Usercode subroutine found: set_phi_restart
+ Usercode subroutine found: set_phi_final
+ Usercode subroutine found: set_phi_exit
+ Usercode subroutine found: set_phi_outit
+ Usercode subroutine found: set_phi_timestep
+ Usercode subroutine found: set_source_init3
+ Usercode subroutine found: set_source_init4
+ Usercode subroutine found: set_source_init5
+ Usercode subroutine found: set_source_initial
+ Usercode subroutine found: set_source_read_controls
+ Usercode subroutine found: set_source_restart
+ Usercode subroutine found: set_source_final
+ Usercode subroutine found: set_source_exit
+ Usercode subroutine found: set_source_outit
+ Usercode subroutine found: set_source_timestep
+
+ Usercode initialisation finished.
+

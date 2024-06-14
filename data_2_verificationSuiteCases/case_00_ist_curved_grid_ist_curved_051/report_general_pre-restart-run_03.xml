@@ -1,0 +1,819 @@
+<log>
+  <runtime_arguments></runtime_arguments>
+  <code_info>
+    ReFRESCO (c) 2005-2023 MARIN
+    Version 2024.3.0-trunk
+    SVN Repository Version 9418M
+     F90=/cm/shared/apps/intel/oneapi/mpi/2021.4.0/bin/mpif90  F90FLAGS=  -warn all,noexternals -DisIntel -O3 -g  -O3 -DNDEBUG -g -traceback  -DENABLE_COPROCESSING -DENABLE_OVERSET -DuseXMF -DENABLE_TIOGA -DENABLE_SUGGAR -Ddisable_licensing -DENABLE_MKL  LDFLAGS=  install prefix: /home/alidtke/ReFRESCO/install_trunk  compiled by: alidtke compiled on: marclus3login2 compiled at: Mon 15. Apr 2024 11:14
+  </code_info>
+  <start_time>2024-04-16 10:55:51</start_time>
+  <nprocs>28</nprocs>
+  <jobID>255604</jobID>
+  <hostName>marclus3</hostName>
+  <user>alidtke</user>
+  <properties_info>
+    <referenceValues>
+      <referenceLength>1.000000E+00</referenceLength>
+      <referenceVelocity>1.000000E+00</referenceVelocity>
+      <referenceTime>1.000000E+00</referenceTime>
+      <referencePressure>0.000000E+00</referencePressure>
+      <referenceTimeDivTimeDelta>1.000000E+03</referenceTimeDivTimeDelta>
+      <ReynoldsNo>1.000000E+07</ReynoldsNo>
+      <FroudeNo>3.192754E-01</FroudeNo>
+    </referenceValues>
+  </properties_info>
+  <bodies_info>
+    <nBodies>0</nBodies>
+  </bodies_info>
+  <momentum_info>
+    <velocity_ini_min_max>
+      <VelocityX_min>-3.070206E-01</VelocityX_min>
+      <VelocityX_max>9.730431E-01</VelocityX_max>
+      <VelocityY_min>-9.684319E-01</VelocityY_min>
+      <VelocityY_max>3.871685E-01</VelocityY_max>
+      <VelocityZ_min>0.000000E+00</VelocityZ_min>
+      <VelocityZ_max>0.000000E+00</VelocityZ_max>
+    </velocity_ini_min_max>
+  </momentum_info>
+  <pressure_info>
+    <pressure_ini_min_max>
+      <Pressure_min>4.451145E-06</Pressure_min>
+      <Pressure_max>3.985095E-01</Pressure_max>
+    </pressure_ini_min_max>
+    <pressure_ref>
+      <reference_pressure_location>pressure boundary defined: reference pressure ignored</reference_pressure_location>
+      <nBCPressure>100</nBCPressure>
+    </pressure_ref>
+  </pressure_info>
+  <geometry_info>
+    <file_info>
+      <geometry_identifier>grid_ist_cu</geometry_identifier>
+    </file_info>
+    <range_min>1.047742E-01  1.047742E-01  0.000000E+00</range_min>
+    <range_max>1.005974E+00  1.005974E+00  1.000000E+00</range_max>
+    <coord_range_min>1.047722E-01  1.047722E-01  0.000000E+00</coord_range_min>
+    <coord_range_max>1.009994E+00  1.009994E+00  1.000000E+00</coord_range_max>
+    <distance_min>1.955124E-06</distance_min>
+    <distance_max>5.000000E-01</distance_max>
+    <geometry_family_info>
+      <nfamilies>5</nfamilies>
+      <geometry_family_range>
+        <Symmetry>1.058303E-01  1.058303E-01  0.000000E+00  9.978399E-01  9.978399E-01  1.000000E+00</Symmetry>
+        <Wall>1.058255E-01  1.058255E-01  5.000000E-01  9.450459E-01  9.450459E-01  5.000000E-01</Wall>
+        <FreeSlip>3.493289E-01  3.493289E-01  5.000000E-01  1.001985E+00  1.001985E+00  5.000000E-01</FreeSlip>
+        <Inflow>1.047742E-01  9.544515E-01  5.000000E-01  3.344440E-01  1.005974E+00  5.000000E-01</Inflow>
+        <Outflow>9.544515E-01  1.047742E-01  5.000000E-01  1.005974E+00  3.344440E-01  5.000000E-01</Outflow>
+      </geometry_family_range>
+      <geometry_family_normals>
+        <Symmetry>0.000000E+00  0.000000E+00 -1.023216E-18</Symmetry>
+        <Wall>-8.496790E-01 -8.496790E-01  0.000000E+00</Wall>
+        <FreeSlip>6.634572E-01  6.634572E-01  0.000000E+00</FreeSlip>
+        <Inflow>-5.554265E-02  2.417645E-01  0.000000E+00</Inflow>
+        <Outflow>2.417645E-01 -5.554265E-02  0.000000E+00</Outflow>
+      </geometry_family_normals>
+    </geometry_family_info>
+    <geometry_volume>
+      <min_volume>7.401216E-08</min_volume>
+      <max_volume>9.124365E-04</max_volume>
+      <total_volume>3.760297E-01</total_volume>
+    </geometry_volume>
+  </geometry_info>
+  <equation_system_info>
+    <equation>
+      <regname>momentumTransport</regname>
+      <description>Momentum Equations</description>
+      <solver>GMRES</solver>
+      <preconditioner>BJACOBI</preconditioner>
+      <tolerance>1.000000E-02</tolerance>
+      <maxiter>500</maxiter>
+    </equation>
+    <equation>
+      <regname>massTransport</regname>
+      <description>Pressure Equation</description>
+      <solver>GMRES</solver>
+      <preconditioner>BJACOBI</preconditioner>
+      <tolerance>1.000000E-02</tolerance>
+      <maxiter>200</maxiter>
+    </equation>
+    <equation>
+      <regname>turbulenceTransport nu_t</regname>
+      <description>undamped eddy viscosity</description>
+      <solver>GMRES</solver>
+      <preconditioner>BJACOBI</preconditioner>
+      <tolerance>1.000000E-01</tolerance>
+      <maxiter>0</maxiter>
+    </equation>
+  </equation_system_info>
+  <topology_info>
+    <topology_file>
+      <topology_identifier>grid_ist_cu</topology_identifier>
+      <version>7</version>
+      <subversion>1</subversion>
+      <nFaces>10100</nFaces>
+      <nSides>15000</nSides>
+      <nParentSides>15000</nParentSides>
+      <nEdges>12801</nEdges>
+      <nRibs>40400</nRibs>
+      <nParentRibs>40400</nParentRibs>
+      <nPoints>25602</nPoints>
+      <nVertices>5202</nVertices>
+      <nBndCells>5200</nBndCells>
+      <nGhstCells>928</nGhstCells>
+      <nSubGrids>1</nSubGrids>
+      <nIntCells>
+        <subgrid name="Interior">2500</subgrid>
+        <total>2500</total>
+        <min_cells_per_core>87</min_cells_per_core>
+        <max_cells_per_core>91</max_cells_per_core>
+      </nIntCells>
+    </topology_file>
+    <topology_boundary_info>
+      <nBndCells>5200</nBndCells>
+      <Symmetry>5000</Symmetry>
+      <Wall>50</Wall>
+      <FreeSlip>50</FreeSlip>
+      <Inflow>50</Inflow>
+      <Outflow>50</Outflow>
+    </topology_boundary_info>
+  </topology_info>
+  <solve_phi_info>
+  </solve_phi_info>
+  <turbulence_1_eq_info>
+    <turbulence_1_eq_model>
+      using one-equation model by Spalart Allmaras
+    </turbulence_1_eq_model>
+    <turbulence_1_eq_ini_min_max>
+      <Mu_t_min>2.786206E-10</Mu_t_min>
+      <Mu_t_max>3.219561E-04</Mu_t_max>
+    </turbulence_1_eq_ini_min_max>
+  </turbulence_1_eq_info>
+  <fluxes_info>
+    <total_VolFlux_Inflow>2.402295E-01</total_VolFlux_Inflow>
+    <total_VolFlux_OutFlowPressure>0.000000E+00</total_VolFlux_OutFlowPressure>
+    <total_VolFlux_Inflow_minus_Outflow>2.402295E-01</total_VolFlux_Inflow_minus_Outflow>
+    <total_MassFlux_Inflow>2.402295E-01</total_MassFlux_Inflow>
+    <total_MassFlux_OutFlowPressure>0.000000E+00</total_MassFlux_OutFlowPressure>
+    <total_MassFlux_Inflow_minus_Outflow>2.402295E-01</total_MassFlux_Inflow_minus_Outflow>
+    <fluxes_ini_min_max>
+      <dot_v_f_min>-3.973196E-02</dot_v_f_min>
+      <dot_v_f_max>3.983209E-02</dot_v_f_max>
+      <dot_m_f_min>-3.973196E-02</dot_m_f_min>
+      <dot_m_f_max>3.983209E-02</dot_m_f_max>
+      <dot_vgrid_f_min>0.000000E+00</dot_vgrid_f_min>
+      <dot_vgrid_f_max>0.000000E+00</dot_vgrid_f_max>
+      <dot_mgrid_f_min>0.000000E+00</dot_mgrid_f_min>
+      <dot_mgrid_f_max>0.000000E+00</dot_mgrid_f_max>
+      <dot_v_f-dot_vgrid_f_min>-3.973196E-02</dot_v_f-dot_vgrid_f_min>
+      <dot_v_f-dot_vgrid_f_max>3.983209E-02</dot_v_f-dot_vgrid_f_max>
+      <dot_m_f-dot_mgrid_f_min>-3.973196E-02</dot_m_f-dot_mgrid_f_min>
+      <dot_m_f-dot_mgrid_f_max>3.983209E-02</dot_m_f-dot_mgrid_f_max>
+    </fluxes_ini_min_max>
+  </fluxes_info>
+  <counters_info>
+    <adapt_started>false</adapt_started>
+    <adapt_iter>0</adapt_iter>
+    <max_adapt_iter>0</max_adapt_iter>
+    <outer_iter>0</outer_iter>
+    <start_outer_iter>1</start_outer_iter>
+    <min_outer_iter>0</min_outer_iter>
+    <max_outer_iter>10</max_outer_iter>
+    <time_step>0</time_step>
+    <start_time_step>1</start_time_step>
+    <start_timestep_timeaverage>1</start_timestep_timeaverage>
+    <nsteps_timeaverage>0</nsteps_timeaverage>
+    <max_time_step>1</max_time_step>
+    <total_iter>0</total_iter>
+    <simul_time>1.000000E-03</simul_time>
+  </counters_info>
+  <residuals_info>
+    <residuals_output>
+      creating residuals output file residuals.dat
+      creating changes output file changes.dat
+    </residuals_output>
+    <residuals_screen>VelocityX VelocityY VelocityZ Pressure TurbNut</residuals_screen>
+    <residuals_conv_norm>L2 (RMS) Norm used for convergence</residuals_conv_norm>
+  </residuals_info>
+  <forces_info>
+    <forces_area>
+      <Symmetry>7.520595E-01</Symmetry>
+      <Wall>1.369141E+00</Wall>
+      <FreeSlip>9.783856E-01</FreeSlip>
+      <Inflow>2.485700E-01</Inflow>
+      <Outflow>2.485700E-01</Outflow>
+    </forces_area>
+  </forces_info>
+  <fielddata_info>
+    <fielddata_ini_min_max>
+      <OldVolume_min>7.401216E-08</OldVolume_min>
+      <OldVolume_max>9.124365E-04</OldVolume_max>
+      <ExactVelocityX_min>-3.070206E-01</ExactVelocityX_min>
+      <ExactVelocityX_max>9.730431E-01</ExactVelocityX_max>
+      <ExactVelocityY_min>-9.684319E-01</ExactVelocityY_min>
+      <ExactVelocityY_max>3.871685E-01</ExactVelocityY_max>
+      <ExactVelocityZ_min>0.000000E+00</ExactVelocityZ_min>
+      <ExactVelocityZ_max>0.000000E+00</ExactVelocityZ_max>
+      <ExactPressure_min>4.299672E-15</ExactPressure_min>
+      <ExactPressure_max>3.991120E-01</ExactPressure_max>
+      <ErrorVelocityX_min>0.000000E+00</ErrorVelocityX_min>
+      <ErrorVelocityX_max>0.000000E+00</ErrorVelocityX_max>
+      <ErrorVelocityY_min>0.000000E+00</ErrorVelocityY_min>
+      <ErrorVelocityY_max>0.000000E+00</ErrorVelocityY_max>
+      <ErrorVelocityZ_min>0.000000E+00</ErrorVelocityZ_min>
+      <ErrorVelocityZ_max>0.000000E+00</ErrorVelocityZ_max>
+      <ErrorPressure_min>0.000000E+00</ErrorPressure_min>
+      <ErrorPressure_max>0.000000E+00</ErrorPressure_max>
+      <Density_min>1.000000E+00</Density_min>
+      <Density_max>1.000000E+00</Density_max>
+      <ViscosityMolecular_min>1.000000E-07</ViscosityMolecular_min>
+      <ViscosityMolecular_max>1.000000E-07</ViscosityMolecular_max>
+      <VelocityX_min>-3.070206E-01</VelocityX_min>
+      <VelocityX_max>9.730431E-01</VelocityX_max>
+      <VelocityY_min>-9.684319E-01</VelocityY_min>
+      <VelocityY_max>3.871685E-01</VelocityY_max>
+      <VelocityZ_min>0.000000E+00</VelocityZ_min>
+      <VelocityZ_max>0.000000E+00</VelocityZ_max>
+      <GridVelocityMOX_min>0.000000E+00</GridVelocityMOX_min>
+      <GridVelocityMOX_max>0.000000E+00</GridVelocityMOX_max>
+      <GridVelocityMOY_min>0.000000E+00</GridVelocityMOY_min>
+      <GridVelocityMOY_max>0.000000E+00</GridVelocityMOY_max>
+      <GridVelocityMOZ_min>0.000000E+00</GridVelocityMOZ_min>
+      <GridVelocityMOZ_max>0.000000E+00</GridVelocityMOZ_max>
+      <GridMomentumSourceMOX_min>0.000000E+00</GridMomentumSourceMOX_min>
+      <GridMomentumSourceMOX_max>0.000000E+00</GridMomentumSourceMOX_max>
+      <GridMomentumSourceMOY_min>0.000000E+00</GridMomentumSourceMOY_min>
+      <GridMomentumSourceMOY_max>0.000000E+00</GridMomentumSourceMOY_max>
+      <GridMomentumSourceMOZ_min>0.000000E+00</GridMomentumSourceMOZ_min>
+      <GridMomentumSourceMOZ_max>0.000000E+00</GridMomentumSourceMOZ_max>
+      <VelocityDashX_min>0.000000E+00</VelocityDashX_min>
+      <VelocityDashX_max>0.000000E+00</VelocityDashX_max>
+      <VelocityDashY_min>0.000000E+00</VelocityDashY_min>
+      <VelocityDashY_max>0.000000E+00</VelocityDashY_max>
+      <VelocityDashZ_min>0.000000E+00</VelocityDashZ_min>
+      <VelocityDashZ_max>0.000000E+00</VelocityDashZ_max>
+      <r_a_c_min>0.000000E+00</r_a_c_min>
+      <r_a_c_max>0.000000E+00</r_a_c_max>
+      <Velocity_resX_min>0.000000E+00</Velocity_resX_min>
+      <Velocity_resX_max>0.000000E+00</Velocity_resX_max>
+      <Velocity_resY_min>0.000000E+00</Velocity_resY_min>
+      <Velocity_resY_max>0.000000E+00</Velocity_resY_max>
+      <Velocity_resZ_min>0.000000E+00</Velocity_resZ_min>
+      <Velocity_resZ_max>0.000000E+00</Velocity_resZ_max>
+      <BodyForces_sumX_min>0.000000E+00</BodyForces_sumX_min>
+      <BodyForces_sumX_max>0.000000E+00</BodyForces_sumX_max>
+      <BodyForces_sumY_min>0.000000E+00</BodyForces_sumY_min>
+      <BodyForces_sumY_max>0.000000E+00</BodyForces_sumY_max>
+      <BodyForces_sumZ_min>0.000000E+00</BodyForces_sumZ_min>
+      <BodyForces_sumZ_max>0.000000E+00</BodyForces_sumZ_max>
+      <Pressure_min>4.299672E-15</Pressure_min>
+      <Pressure_max>3.991120E-01</Pressure_max>
+      <Pressure_dash_min>0.000000E+00</Pressure_dash_min>
+      <Pressure_dash_max>0.000000E+00</Pressure_dash_max>
+      <Pressure_dash_res_min>0.000000E+00</Pressure_dash_res_min>
+      <Pressure_dash_res_max>0.000000E+00</Pressure_dash_res_max>
+      <ViscosityEddy_min>1.264368E-12</ViscosityEddy_min>
+      <ViscosityEddy_max>3.219577E-04</ViscosityEddy_max>
+      <Mue_f_min>0.000000E+00</Mue_f_min>
+      <Mue_f_max>0.000000E+00</Mue_f_max>
+      <Nu_t_tild_min>2.593686E-08</Nu_t_tild_min>
+      <Nu_t_tild_max>3.219577E-04</Nu_t_tild_max>
+      <TurbulentEnergyKinetic_min>0.000000E+00</TurbulentEnergyKinetic_min>
+      <TurbulentEnergyKinetic_max>0.000000E+00</TurbulentEnergyKinetic_max>
+      <SymGradVX_min>0.000000E+00</SymGradVX_min>
+      <SymGradVX_max>0.000000E+00</SymGradVX_max>
+      <SymGradVY_min>0.000000E+00</SymGradVY_min>
+      <SymGradVY_max>0.000000E+00</SymGradVY_max>
+      <SymGradVZ_min>0.000000E+00</SymGradVZ_min>
+      <SymGradVZ_max>0.000000E+00</SymGradVZ_max>
+      <AsymGradVX_min>0.000000E+00</AsymGradVX_min>
+      <AsymGradVX_max>0.000000E+00</AsymGradVX_max>
+      <AsymGradVY_min>0.000000E+00</AsymGradVY_min>
+      <AsymGradVY_max>0.000000E+00</AsymGradVY_max>
+      <AsymGradVZ_min>0.000000E+00</AsymGradVZ_min>
+      <AsymGradVZ_max>0.000000E+00</AsymGradVZ_max>
+      <Nu_t_tild_res_min>0.000000E+00</Nu_t_tild_res_min>
+      <Nu_t_tild_res_max>0.000000E+00</Nu_t_tild_res_max>
+      <GridVolumeFlux_min>0.000000E+00</GridVolumeFlux_min>
+      <GridVolumeFlux_max>0.000000E+00</GridVolumeFlux_max>
+      <apply_correction_f_c_min>0.000000E+00</apply_correction_f_c_min>
+      <apply_correction_f_c_max>1.000000E+00</apply_correction_f_c_max>
+      <MeshQuality_min>9.397102E-01</MeshQuality_min>
+      <MeshQuality_max>9.955749E-01</MeshQuality_max>
+      <SkinFrictionX_min>0.000000E+00</SkinFrictionX_min>
+      <SkinFrictionX_max>1.299192E-02</SkinFrictionX_max>
+      <SkinFrictionY_min>-1.326066E-02</SkinFrictionY_min>
+      <SkinFrictionY_max>0.000000E+00</SkinFrictionY_max>
+      <SkinFrictionZ_min>0.000000E+00</SkinFrictionZ_min>
+      <SkinFrictionZ_max>0.000000E+00</SkinFrictionZ_max>
+      <Yplus_min>0.000000E+00</Yplus_min>
+      <Yplus_max>3.737297E+00</Yplus_max>
+      <Xplus_min>0.000000E+00</Xplus_min>
+      <Xplus_max>4.634058E+04</Xplus_max>
+      <Zplus_min>0.000000E+00</Zplus_min>
+      <Zplus_max>1.171861E+06</Zplus_max>
+      <Tplus_min>0.000000E+00</Tplus_min>
+      <Tplus_max>0.000000E+00</Tplus_max>
+      <VorticityX_min>-6.803329E-14</VorticityX_min>
+      <VorticityX_max>5.125356E-14</VorticityX_max>
+      <VorticityY_min>-6.949633E-14</VorticityY_min>
+      <VorticityY_max>8.665873E-14</VorticityY_max>
+      <VorticityZ_min>-6.905911E+04</VorticityZ_min>
+      <VorticityZ_max>5.648729E+01</VorticityZ_max>
+    </fielddata_ini_min_max>
+  </fielddata_info>
+  <license_info>
+    License is not active!
+  </license_info>
+  <output_info>
+    <file_name>./output.out</file_name>
+    <file_subname>data</file_subname>
+    <name>counter</name>
+    <subname>simul_time</subname>
+    <name>counter</name>
+    <subname>outer_iter</subname>
+    <name>counter</name>
+    <subname>time_step</subname>
+    <name>counter</name>
+    <subname>total_iter</subname>
+    <name>counter</name>
+    <subname>adapt_iter</subname>
+    <name>counter</name>
+    <subname>start_timestep_timeaverage</subname>
+    <name>counter</name>
+    <subname>nsteps_timeaverage</subname>
+    <name>freemotion</name>
+    <subname>isNotActive</subname>
+    <name>pressureReference</name>
+    <subname>pRefPos</subname>
+  </output_info>
+  <equations_info>
+  </equations_info>
+  <interpolation_info>
+  </interpolation_info>
+  <extra_quantities_info>
+    Vorticity will be calculated and stored!
+  </extra_quantities_info>
+  <autodetect_info>
+    <nInflowFaces>50</nInflowFaces>
+    <nOutflowFaces>0</nOutflowFaces>
+    <nPressureFaces>0</nPressureFaces>
+    <nBCAutoDetectInflowFaces>0</nBCAutoDetectInflowFaces>
+    <nBCAutoDetectOutflowFaces>0</nBCAutoDetectOutflowFaces>
+    <nBCAutoDetectPressureFaces>0</nBCAutoDetectPressureFaces>
+    <nTotalInflowFaces>50</nTotalInflowFaces>
+    <nTotalOutflowFaces>0</nTotalOutflowFaces>
+    <nTotalPressureFaces>0</nTotalPressureFaces>
+    <nOtherFaces>5150</nOtherFaces>
+  </autodetect_info>
+  <load_balancing_tools_info>
+  </load_balancing_tools_info>
+  <load_balancing_info>
+  </load_balancing_info>
+  <monitors_info>
+    <numberMonitors>1</numberMonitors>
+    <monitor name="Forces">
+      <type>MO_Force</type>
+      <fileName>post.dat</fileName>
+      <families>Wall</families>
+    </monitor>
+  </monitors_info>
+  <info_result_summary>
+    <bodies_result_summary>
+      <nBodies>0</nBodies>
+    </bodies_result_summary>
+    <momentum_result_summary>
+      <velocity_min_max>
+        <VelocityX_min>-3.091256E-01</VelocityX_min>
+        <VelocityX_max>9.744493E-01</VelocityX_max>
+        <VelocityY_min>-9.684319E-01</VelocityY_min>
+        <VelocityY_max>3.903783E-01</VelocityY_max>
+        <VelocityZ_min>0.000000E+00</VelocityZ_min>
+        <VelocityZ_max>0.000000E+00</VelocityZ_max>
+      </velocity_min_max>
+      <xplus_min_max>
+        <Wall>
+          <x_plus_min>5.211860E+03</x_plus_min>
+          <x_plus_max>8.170414E+03</x_plus_max>
+          <x_plus_avg>6.405002E+03</x_plus_avg>
+          <x_plus_stdev>6.543685E+02</x_plus_stdev>
+        </Wall>
+        <global>
+          <x_plus_min>5.211860E+03</x_plus_min>
+          <x_plus_max>8.170414E+03</x_plus_max>
+          <x_plus_avg>6.405002E+03</x_plus_avg>
+          <x_plus_stdev>6.543685E+02</x_plus_stdev>
+        </global>
+      </xplus_min_max>
+      <yplus_min_max>
+        <Wall>
+          <y_plus_min>4.615892E-01</y_plus_min>
+          <y_plus_max>7.137432E-01</y_plus_max>
+          <y_plus_avg>6.022762E-01</y_plus_avg>
+          <y_plus_stdev>5.539276E-02</y_plus_stdev>
+        </Wall>
+        <global>
+          <y_plus_min>4.615892E-01</y_plus_min>
+          <y_plus_max>7.137432E-01</y_plus_max>
+          <y_plus_avg>6.022762E-01</y_plus_avg>
+          <y_plus_stdev>5.539276E-02</y_plus_stdev>
+        </global>
+      </yplus_min_max>
+      <zplus_min_max>
+        <Wall>
+          <z_plus_min>1.606361E+05</z_plus_min>
+          <z_plus_max>3.650754E+05</z_plus_max>
+          <z_plus_avg>2.456114E+05</z_plus_avg>
+          <z_plus_stdev>5.429945E+04</z_plus_stdev>
+        </Wall>
+        <global>
+          <z_plus_min>1.606361E+05</z_plus_min>
+          <z_plus_max>3.650754E+05</z_plus_max>
+          <z_plus_avg>2.456114E+05</z_plus_avg>
+          <z_plus_stdev>5.429945E+04</z_plus_stdev>
+        </global>
+      </zplus_min_max>
+    </momentum_result_summary>
+    <pressure_result_summary>
+      <pressure_min_max>
+        <Pressure_min>-7.693098E-04</Pressure_min>
+        <Pressure_max>4.014102E-01</Pressure_max>
+      </pressure_min_max>
+    </pressure_result_summary>
+    <turbulence_result_summary>
+      <Mu_t_min>2.786206E-10</Mu_t_min>
+      <Mu_t_max>3.219561E-04</Mu_t_max>
+    </turbulence_result_summary>
+    <turbulence_1_eq_result_summary>
+      <turbulence_1_eq_model>
+        using one-equation model by Spalart Allmaras
+      </turbulence_1_eq_model>
+      <turbulence_1_eq_negval>
+        <nCells_Neg_Nu_t>0</nCells_Neg_Nu_t>
+        <nCells_Neg_Nu_t_max>0</nCells_Neg_Nu_t_max>
+        <min_Nu_t>0.000000E+00</min_Nu_t>
+        <min_Nu_t_min>0.000000E+00</min_Nu_t_min>
+      </turbulence_1_eq_negval>
+      <turbulence_1_eq_min_max>
+        <Mu_t_min>2.786206E-10</Mu_t_min>
+        <Mu_t_max>3.219561E-04</Mu_t_max>
+      </turbulence_1_eq_min_max>
+    </turbulence_1_eq_result_summary>
+    <fluxes_result_summary>
+      <total_VolFlux_Inflow>2.402295E-01</total_VolFlux_Inflow>
+      <total_VolFlux_OutFlowPressure>0.000000E+00</total_VolFlux_OutFlowPressure>
+      <total_VolFlux_Inflow_minus_Outflow>2.402295E-01</total_VolFlux_Inflow_minus_Outflow>
+      <total_MassFlux_Inflow>2.402295E-01</total_MassFlux_Inflow>
+      <total_MassFlux_OutFlowPressure>0.000000E+00</total_MassFlux_OutFlowPressure>
+      <total_MassFlux_Inflow_minus_Outflow>2.402295E-01</total_MassFlux_Inflow_minus_Outflow>
+      <fluxes_min_max>
+        <dot_v_f_min>-3.964986E-02</dot_v_f_min>
+        <dot_v_f_max>3.975081E-02</dot_v_f_max>
+        <dot_m_f_min>-3.964986E-02</dot_m_f_min>
+        <dot_m_f_max>3.975081E-02</dot_m_f_max>
+        <dot_vgrid_f_min>0.000000E+00</dot_vgrid_f_min>
+        <dot_vgrid_f_max>0.000000E+00</dot_vgrid_f_max>
+        <dot_mgrid_f_min>0.000000E+00</dot_mgrid_f_min>
+        <dot_mgrid_f_max>0.000000E+00</dot_mgrid_f_max>
+        <dot_v_f-dot_vgrid_f_min>-3.964986E-02</dot_v_f-dot_vgrid_f_min>
+        <dot_v_f-dot_vgrid_f_max>3.975081E-02</dot_v_f-dot_vgrid_f_max>
+        <dot_m_f-dot_mgrid_f_min>-3.964986E-02</dot_m_f-dot_mgrid_f_min>
+        <dot_m_f-dot_mgrid_f_max>3.975081E-02</dot_m_f-dot_mgrid_f_max>
+      </fluxes_min_max>
+    </fluxes_result_summary>
+    <octrees_result_summary>
+      <WallFacesOctree>
+        <MaxTreeElementsOnMaster>2</MaxTreeElementsOnMaster>
+        <NrTreeLeafsOnMaster>29</NrTreeLeafsOnMaster>
+        <nrOfElementsOnMaster>50</nrOfElementsOnMaster>
+        <TotalSearchTimeOnMaster>4.182132E-04</TotalSearchTimeOnMaster>
+      </WallFacesOctree>
+      <InternalCells_cellCenters>
+        <MaxTreeElementsOnMaster>3</MaxTreeElementsOnMaster>
+        <NrTreeLeafsOnMaster>102</NrTreeLeafsOnMaster>
+        <nrOfElementsOnMaster>90</nrOfElementsOnMaster>
+        <TotalSearchTimeOnMaster>0.000000E+00</TotalSearchTimeOnMaster>
+      </InternalCells_cellCenters>
+      <InternalCells_cellBox>
+        <MaxTreeElementsOnMaster>20</MaxTreeElementsOnMaster>
+        <NrTreeLeafsOnMaster>25</NrTreeLeafsOnMaster>
+        <nrOfElementsOnMaster>220</nrOfElementsOnMaster>
+        <TotalSearchTimeOnMaster>0.000000E+00</TotalSearchTimeOnMaster>
+      </InternalCells_cellBox>
+      <BoundaryCells_cellCenters>
+        <MaxTreeElementsOnMaster>4</MaxTreeElementsOnMaster>
+        <NrTreeLeafsOnMaster>223</NrTreeLeafsOnMaster>
+        <nrOfElementsOnMaster>199</nrOfElementsOnMaster>
+        <TotalSearchTimeOnMaster>0.000000E+00</TotalSearchTimeOnMaster>
+      </BoundaryCells_cellCenters>
+      <AllOctreesTotalSearchTimeOnMaster>4.182132E-04</AllOctreesTotalSearchTimeOnMaster>
+      <AllTotalSearchTimeOnMaster>4.182132E-04</AllTotalSearchTimeOnMaster>
+    </octrees_result_summary>
+    <gridquality_result_summary>
+      <general_name>MS1 with Spalart-Allmaras</general_name>
+      <general_description>Cartesian Stretched</general_description>
+      <general_caseid>MS Base</general_caseid>
+      <gridFileName>grid_ist_curved_051_refresco</gridFileName>
+      <gridFilePath>../../grids_refresco</gridFilePath>
+      <cellMetrics>
+        <apply_correction_f_c>
+          <nCounted>2500</nCounted>
+          <nIgnored>0</nIgnored>
+          <min>0.000000E+00</min>
+          <max>1.000000E+00</max>
+          <average>3.880000E-01</average>
+          <stdev>4.873921E-01</stdev>
+        </apply_correction_f_c>
+        <MeshQuality>
+          <nCounted>2500</nCounted>
+          <nIgnored>0</nIgnored>
+          <min>9.397102E-01</min>
+          <max>9.955749E-01</max>
+          <average>9.750592E-01</average>
+          <stdev>9.942119E-03</stdev>
+        </MeshQuality>
+      </cellMetrics>
+      <faceMetrics>
+        <apply_correction_f>
+          <nCounted>10100</nCounted>
+          <nIgnored>0</nIgnored>
+          <min>0.000000E+00</min>
+          <max>1.000000E+00</max>
+          <average>9.326733E-02</average>
+          <stdev>2.908211E-01</stdev>
+        </apply_correction_f>
+      </faceMetrics>
+    </gridquality_result_summary>
+    <counters_result_summary>
+      <adapt_started>false</adapt_started>
+      <adapt_iter>0</adapt_iter>
+      <max_adapt_iter>0</max_adapt_iter>
+      <outer_iter>10</outer_iter>
+      <start_outer_iter>1</start_outer_iter>
+      <min_outer_iter>0</min_outer_iter>
+      <max_outer_iter>10</max_outer_iter>
+      <time_step>1</time_step>
+      <start_time_step>1</start_time_step>
+      <start_timestep_timeaverage>1</start_timestep_timeaverage>
+      <nsteps_timeaverage>0</nsteps_timeaverage>
+      <max_time_step>1</max_time_step>
+      <total_iter>10</total_iter>
+      <simul_time>1.000000E-03</simul_time>
+      <start_adapt_iter>0</start_adapt_iter>
+      <n_adapt_iter>0</n_adapt_iter>
+      <start_iter>1</start_iter>
+      <n_iter>10</n_iter>
+    </counters_result_summary>
+    <residuals_result_summary>
+      <residuals_final>
+        <L2_Velocity>
+           1.396492E-04  1.546148E-04  0.000000E+00
+        </L2_Velocity>
+        <L2_Pressure>
+           2.011030E-05
+        </L2_Pressure>
+        <L2_TurbNut>
+           0.000000E+00
+        </L2_TurbNut>
+        <Linf_Velocity>
+           2.614500E-03  3.674312E-03  0.000000E+00
+        </Linf_Velocity>
+        <Linf_Pressure>
+           2.152663E-04
+        </Linf_Pressure>
+        <Linf_TurbNut>
+           0.000000E+00
+        </Linf_TurbNut>
+      </residuals_final>
+      <changes_final>
+        <L2_Velocity>
+           1.644889E-03  1.521878E-03  0.000000E+00
+        </L2_Velocity>
+        <L2_Pressure>
+           1.173686E-03
+        </L2_Pressure>
+        <L2_TurbNut>
+           0.000000E+00
+        </L2_TurbNut>
+        <Linf_Velocity>
+           1.496862E-02  1.754956E-02  0.000000E+00
+        </Linf_Velocity>
+        <Linf_Pressure>
+           4.718330E-03
+        </Linf_Pressure>
+        <Linf_TurbNut>
+           0.000000E+00
+        </Linf_TurbNut>
+      </changes_final>
+      <outer_loop_summary>
+        <startOuterIter>1</startOuterIter>
+        <endOuterIter>10</endOuterIter>
+        <nOuterIter>10</nOuterIter>
+      </outer_loop_summary>
+    </residuals_result_summary>
+    <forces_result_summary>
+      <pressure_dynamic_force>
+        <Symmetry>0.000000E+00  0.000000E+00  5.598327E-20</Symmetry>
+        <Wall>-1.800475E-01 -1.626146E-01  0.000000E+00</Wall>
+        <FreeSlip>1.102423E-08  1.085380E-08  0.000000E+00</FreeSlip>
+        <Inflow>-9.248699E-03  5.014871E-02  0.000000E+00</Inflow>
+        <Outflow>7.423463E-10 -1.828384E-10  0.000000E+00</Outflow>
+      </pressure_dynamic_force>
+      <pressure_static_force>
+        <Symmetry>0.000000E+00  0.000000E+00  0.000000E+00</Symmetry>
+        <Wall>0.000000E+00  0.000000E+00  0.000000E+00</Wall>
+        <FreeSlip>0.000000E+00  0.000000E+00  0.000000E+00</FreeSlip>
+        <Inflow>0.000000E+00  0.000000E+00  0.000000E+00</Inflow>
+        <Outflow>0.000000E+00  0.000000E+00  0.000000E+00</Outflow>
+      </pressure_static_force>
+      <friction_force>
+        <Symmetry>0.000000E+00  0.000000E+00  0.000000E+00</Symmetry>
+        <Wall>4.657925E-04 -4.805109E-04  0.000000E+00</Wall>
+        <FreeSlip>0.000000E+00  0.000000E+00  0.000000E+00</FreeSlip>
+        <Inflow>0.000000E+00  0.000000E+00  0.000000E+00</Inflow>
+        <Outflow>0.000000E+00  0.000000E+00  0.000000E+00</Outflow>
+      </friction_force>
+      <sum_force>
+        <Symmetry>0.000000E+00  0.000000E+00  5.598327E-20</Symmetry>
+        <Wall>-1.795817E-01 -1.630951E-01  0.000000E+00</Wall>
+        <FreeSlip>1.102423E-08  1.085380E-08  0.000000E+00</FreeSlip>
+        <Inflow>-9.248699E-03  5.014871E-02  0.000000E+00</Inflow>
+        <Outflow>7.423463E-10 -1.828384E-10  0.000000E+00</Outflow>
+      </sum_force>
+      <note>moments around origin</note>
+      <pressure_dynamic_moment>
+        <Symmetry>3.750987E-20  7.491214E-20  0.000000E+00</Symmetry>
+        <Wall>8.130732E-02 -9.002375E-02  2.479773E-02</Wall>
+        <FreeSlip>-5.426899E-09  5.512117E-09 -2.940713E-10</FreeSlip>
+        <Inflow>-2.507435E-02 -4.624349E-03  1.793215E-02</Inflow>
+        <Outflow>9.141922E-11  3.711732E-10 -3.588010E-10</Outflow>
+      </pressure_dynamic_moment>
+      <pressure_static_moment>
+        <Symmetry>0.000000E+00  0.000000E+00  0.000000E+00</Symmetry>
+        <Wall>0.000000E+00  0.000000E+00  0.000000E+00</Wall>
+        <FreeSlip>0.000000E+00  0.000000E+00  0.000000E+00</FreeSlip>
+        <Inflow>0.000000E+00  0.000000E+00  0.000000E+00</Inflow>
+        <Outflow>0.000000E+00  0.000000E+00  0.000000E+00</Outflow>
+      </pressure_static_moment>
+      <friction_moment>
+        <Symmetry>0.000000E+00  0.000000E+00  0.000000E+00</Symmetry>
+        <Wall>2.402555E-04  2.328962E-04 -2.304492E-04</Wall>
+        <FreeSlip>0.000000E+00  0.000000E+00  0.000000E+00</FreeSlip>
+        <Inflow>0.000000E+00  0.000000E+00  0.000000E+00</Inflow>
+        <Outflow>0.000000E+00  0.000000E+00  0.000000E+00</Outflow>
+      </friction_moment>
+      <sum_moment>
+        <Symmetry>3.750987E-20  7.491214E-20  0.000000E+00</Symmetry>
+        <Wall>8.154757E-02 -8.979086E-02  2.456728E-02</Wall>
+        <FreeSlip>-5.426899E-09  5.512117E-09 -2.940713E-10</FreeSlip>
+        <Inflow>-2.507435E-02 -4.624349E-03  1.793215E-02</Inflow>
+        <Outflow>9.141922E-11  3.711732E-10 -3.588010E-10</Outflow>
+      </sum_moment>
+    </forces_result_summary>
+    <fielddata_result_summary>
+      <fielddata_min_max>
+        <OldVolume_min>7.401216E-08</OldVolume_min>
+        <OldVolume_max>9.124365E-04</OldVolume_max>
+        <ExactVelocityX_min>-3.070206E-01</ExactVelocityX_min>
+        <ExactVelocityX_max>9.730431E-01</ExactVelocityX_max>
+        <ExactVelocityY_min>-9.684319E-01</ExactVelocityY_min>
+        <ExactVelocityY_max>3.871685E-01</ExactVelocityY_max>
+        <ExactVelocityZ_min>0.000000E+00</ExactVelocityZ_min>
+        <ExactVelocityZ_max>0.000000E+00</ExactVelocityZ_max>
+        <ExactPressure_min>4.299672E-15</ExactPressure_min>
+        <ExactPressure_max>3.991120E-01</ExactPressure_max>
+        <ErrorVelocityX_min>0.000000E+00</ErrorVelocityX_min>
+        <ErrorVelocityX_max>8.825277E-03</ErrorVelocityX_max>
+        <ErrorVelocityY_min>0.000000E+00</ErrorVelocityY_min>
+        <ErrorVelocityY_max>1.792412E-02</ErrorVelocityY_max>
+        <ErrorVelocityZ_min>0.000000E+00</ErrorVelocityZ_min>
+        <ErrorVelocityZ_max>0.000000E+00</ErrorVelocityZ_max>
+        <ErrorPressure_min>0.000000E+00</ErrorPressure_min>
+        <ErrorPressure_max>3.275925E-03</ErrorPressure_max>
+        <Density_min>1.000000E+00</Density_min>
+        <Density_max>1.000000E+00</Density_max>
+        <ViscosityMolecular_min>1.000000E-07</ViscosityMolecular_min>
+        <ViscosityMolecular_max>1.000000E-07</ViscosityMolecular_max>
+        <VelocityX_min>-3.091256E-01</VelocityX_min>
+        <VelocityX_max>9.744493E-01</VelocityX_max>
+        <VelocityY_min>-9.684319E-01</VelocityY_min>
+        <VelocityY_max>3.903783E-01</VelocityY_max>
+        <VelocityZ_min>0.000000E+00</VelocityZ_min>
+        <VelocityZ_max>0.000000E+00</VelocityZ_max>
+        <GridVelocityMOX_min>0.000000E+00</GridVelocityMOX_min>
+        <GridVelocityMOX_max>0.000000E+00</GridVelocityMOX_max>
+        <GridVelocityMOY_min>0.000000E+00</GridVelocityMOY_min>
+        <GridVelocityMOY_max>0.000000E+00</GridVelocityMOY_max>
+        <GridVelocityMOZ_min>0.000000E+00</GridVelocityMOZ_min>
+        <GridVelocityMOZ_max>0.000000E+00</GridVelocityMOZ_max>
+        <GridMomentumSourceMOX_min>0.000000E+00</GridMomentumSourceMOX_min>
+        <GridMomentumSourceMOX_max>0.000000E+00</GridMomentumSourceMOX_max>
+        <GridMomentumSourceMOY_min>0.000000E+00</GridMomentumSourceMOY_min>
+        <GridMomentumSourceMOY_max>0.000000E+00</GridMomentumSourceMOY_max>
+        <GridMomentumSourceMOZ_min>0.000000E+00</GridMomentumSourceMOZ_min>
+        <GridMomentumSourceMOZ_max>0.000000E+00</GridMomentumSourceMOZ_max>
+        <VelocityDashX_min>0.000000E+00</VelocityDashX_min>
+        <VelocityDashX_max>0.000000E+00</VelocityDashX_max>
+        <VelocityDashY_min>0.000000E+00</VelocityDashY_min>
+        <VelocityDashY_max>0.000000E+00</VelocityDashY_max>
+        <VelocityDashZ_min>0.000000E+00</VelocityDashZ_min>
+        <VelocityDashZ_max>0.000000E+00</VelocityDashZ_max>
+        <r_a_c_min>1.826429E+01</r_a_c_min>
+        <r_a_c_max>1.265484E+03</r_a_c_max>
+        <Velocity_resX_min>0.000000E+00</Velocity_resX_min>
+        <Velocity_resX_max>0.000000E+00</Velocity_resX_max>
+        <Velocity_resY_min>0.000000E+00</Velocity_resY_min>
+        <Velocity_resY_max>0.000000E+00</Velocity_resY_max>
+        <Velocity_resZ_min>0.000000E+00</Velocity_resZ_min>
+        <Velocity_resZ_max>0.000000E+00</Velocity_resZ_max>
+        <BodyForces_sumX_min>0.000000E+00</BodyForces_sumX_min>
+        <BodyForces_sumX_max>0.000000E+00</BodyForces_sumX_max>
+        <BodyForces_sumY_min>0.000000E+00</BodyForces_sumY_min>
+        <BodyForces_sumY_max>0.000000E+00</BodyForces_sumY_max>
+        <BodyForces_sumZ_min>0.000000E+00</BodyForces_sumZ_min>
+        <BodyForces_sumZ_max>0.000000E+00</BodyForces_sumZ_max>
+        <Pressure_min>-7.693098E-04</Pressure_min>
+        <Pressure_max>4.014102E-01</Pressure_max>
+        <Pressure_dash_min>-4.718330E-03</Pressure_dash_min>
+        <Pressure_dash_max>1.209557E-03</Pressure_dash_max>
+        <Pressure_dash_res_min>0.000000E+00</Pressure_dash_res_min>
+        <Pressure_dash_res_max>0.000000E+00</Pressure_dash_res_max>
+        <ViscosityEddy_min>1.264368E-12</ViscosityEddy_min>
+        <ViscosityEddy_max>3.219577E-04</ViscosityEddy_max>
+        <Mue_f_min>0.000000E+00</Mue_f_min>
+        <Mue_f_max>0.000000E+00</Mue_f_max>
+        <Nu_t_tild_min>3.266583E-08</Nu_t_tild_min>
+        <Nu_t_tild_max>3.219577E-04</Nu_t_tild_max>
+        <TurbulentEnergyKinetic_min>0.000000E+00</TurbulentEnergyKinetic_min>
+        <TurbulentEnergyKinetic_max>0.000000E+00</TurbulentEnergyKinetic_max>
+        <SymGradVX_min>0.000000E+00</SymGradVX_min>
+        <SymGradVX_max>0.000000E+00</SymGradVX_max>
+        <SymGradVY_min>0.000000E+00</SymGradVY_min>
+        <SymGradVY_max>0.000000E+00</SymGradVY_max>
+        <SymGradVZ_min>0.000000E+00</SymGradVZ_min>
+        <SymGradVZ_max>0.000000E+00</SymGradVZ_max>
+        <AsymGradVX_min>0.000000E+00</AsymGradVX_min>
+        <AsymGradVX_max>0.000000E+00</AsymGradVX_max>
+        <AsymGradVY_min>0.000000E+00</AsymGradVY_min>
+        <AsymGradVY_max>0.000000E+00</AsymGradVY_max>
+        <AsymGradVZ_min>0.000000E+00</AsymGradVZ_min>
+        <AsymGradVZ_max>0.000000E+00</AsymGradVZ_max>
+        <Nu_t_tild_res_min>0.000000E+00</Nu_t_tild_res_min>
+        <Nu_t_tild_res_max>0.000000E+00</Nu_t_tild_res_max>
+        <GridVolumeFlux_min>0.000000E+00</GridVolumeFlux_min>
+        <GridVolumeFlux_max>0.000000E+00</GridVolumeFlux_max>
+        <apply_correction_f_c_min>0.000000E+00</apply_correction_f_c_min>
+        <apply_correction_f_c_max>1.000000E+00</apply_correction_f_c_max>
+        <MeshQuality_min>9.397102E-01</MeshQuality_min>
+        <MeshQuality_max>9.955749E-01</MeshQuality_max>
+        <SkinFrictionX_min>0.000000E+00</SkinFrictionX_min>
+        <SkinFrictionX_max>9.961811E-04</SkinFrictionX_max>
+        <SkinFrictionY_min>-1.324522E-03</SkinFrictionY_min>
+        <SkinFrictionY_max>0.000000E+00</SkinFrictionY_max>
+        <SkinFrictionZ_min>0.000000E+00</SkinFrictionZ_min>
+        <SkinFrictionZ_max>0.000000E+00</SkinFrictionZ_max>
+        <Yplus_min>0.000000E+00</Yplus_min>
+        <Yplus_max>7.137432E-01</Yplus_max>
+        <Xplus_min>0.000000E+00</Xplus_min>
+        <Xplus_max>8.170414E+03</Xplus_max>
+        <Zplus_min>0.000000E+00</Zplus_min>
+        <Zplus_max>3.650754E+05</Zplus_max>
+        <Tplus_min>0.000000E+00</Tplus_min>
+        <Tplus_max>0.000000E+00</Tplus_max>
+        <VorticityX_min>-6.798308E-14</VorticityX_min>
+        <VorticityX_max>5.119972E-14</VorticityX_max>
+        <VorticityY_min>-6.955084E-14</VorticityY_min>
+        <VorticityY_max>8.659705E-14</VorticityY_max>
+        <VorticityZ_min>-1.199343E+04</VorticityZ_min>
+        <VorticityZ_max>5.557482E+01</VorticityZ_max>
+      </fielddata_min_max>
+    </fielddata_result_summary>
+    <output_result_summary>
+    </output_result_summary>
+    <interpolation_result_summary>
+    </interpolation_result_summary>
+    <extra_quantities_result_summary>
+      Vorticity calculated and stored!
+      <VorticityX_min>-6.798308E-14</VorticityX_min>
+      <VorticityX_max>5.119972E-14</VorticityX_max>
+      <VorticityY_min>-6.955084E-14</VorticityY_min>
+      <VorticityY_max>8.659705E-14</VorticityY_max>
+      <VorticityZ_min>-1.199343E+04</VorticityZ_min>
+      <VorticityZ_max>5.557482E+01</VorticityZ_max>
+    </extra_quantities_result_summary>
+    <logging_result_summary>
+      <NumberOfWarnings>0</NumberOfWarnings>
+      <NumberOfSevereWarnings>0</NumberOfSevereWarnings>
+      <NumberOfErrors>0</NumberOfErrors>
+    </logging_result_summary>
+    <monitors_result_summary>
+      <MO_Force name="Forces">
+        <area>1.369141E+00</area>
+      </MO_Force>
+    </monitors_result_summary>
+    <last_time_step>1</last_time_step>
+    <pre_processing_io_computation_time>9.571371E-02</pre_processing_io_computation_time>
+    <post_processing_io_computation_time>3.521207E-01</post_processing_io_computation_time>
+    <remaining_computation_time>6.037790E-01</remaining_computation_time>
+    <computation_time>1.051613E+00</computation_time>
+    <end_time>2024-04-16 10:55:51</end_time>
+  </info_result_summary>
+</log>

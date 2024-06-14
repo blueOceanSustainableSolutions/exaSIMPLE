@@ -1,0 +1,131 @@
+<controls>
+  <general>
+    <codeVersion>2024.6</codeVersion>
+    <name>autoCaseTM</name>
+    <description>autoCaseTM</description>
+    <caseid>autoCaseTM</caseid>
+    <material>Water</material>
+    <referenceVelocity>1.0</referenceVelocity>
+    <referenceLength>1.0</referenceLength>
+    <referencePressure>0.0</referencePressure>
+    <referenceMaterial>Water</referenceMaterial>
+    <outFileName>out</outFileName>
+    <outFilePath>.</outFilePath>
+    <nsave>-1</nsave>
+  </general>
+
+  <developer>
+    <savePETScMatrixDataEveryNouterLoops>10</savePETScMatrixDataEveryNouterLoops>
+  </developer>
+  <grids>
+    <grid>
+      <gridFilePath>.</gridFilePath>
+      <gridFileName>grid</gridFileName>
+    </grid>
+  </grids>
+  <outerLoop>
+    <maxIteration>200</maxIteration>
+    <convergenceToleranceLinf>1e-6</convergenceToleranceLinf>
+  </outerLoop>
+  <equations>
+    <equation name="mom">
+      <EQMomentum>
+        <solve_z>false</solve_z>
+        <maxIteration>500</maxIteration>
+        <relaxationProcedure>
+          <IMPLICIT_EXPLICIT>
+            <imp_relax_min>0.92</imp_relax_min>
+            <imp_relax_max>0.95</imp_relax_max>
+            <imp_relax_fac>50</imp_relax_fac>
+            <exp_relax>0.95</exp_relax>
+          </IMPLICIT_EXPLICIT>
+        </relaxationProcedure>
+        <convectiveFluxDiscretisation>
+            <FOU_CDS_BLEND><blendingFactor>0.97</blendingFactor></FOU_CDS_BLEND>
+            <!--TVD_SCHEME><schemeName>LIMITED_QUICK</schemeName></TVD_SCHEME-->
+        </convectiveFluxDiscretisation>
+        <solver>
+            <PETSC>
+                <solver>GMRES</solver>
+                <preconditioner>BJACOBI</preconditioner>
+            </PETSC>
+        </solver>
+        <saveResidual>true</saveResidual>
+        <userSource>false</userSource>
+        <initialization>
+          <USER_DEFINED>
+            <initialVelocity userCode="false">0.0 0.0 0.0</initialVelocity>
+            <referenceSystem>BODY_FIXED</referenceSystem>
+          </USER_DEFINED>
+        </initialization>
+      </EQMomentum>
+    </equation>
+    <equation name="pres">
+      <EQPressure>
+        <maxIteration>200</maxIteration>
+        <relaxationProcedure>
+          <EXPLICIT><exp_relax>0.1</exp_relax></EXPLICIT>
+        </relaxationProcedure>
+        <saveResidual>true</saveResidual>
+        <saveHessian>true</saveHessian>
+        <initialPressure userCode="false">0.0</initialPressure>
+        <solver>
+            <PETSC>
+                <solver>GMRES</solver>
+                <preconditioner>BJACOBI</preconditioner>
+            </PETSC>
+        </solver>
+      </EQPressure>
+    </equation>
+  </equations>
+  <boundaries>
+    <family name="x_neg">
+      <BCSymmetryPlane/>
+    </family>
+    <family name="x_pos">
+      <BCSymmetryPlane/>
+    </family>
+    <family name="y_neg">
+      <BCSymmetryPlane/>
+    </family>
+    <family name="y_pos">
+      <BCSymmetryPlane/>
+    </family>
+    <family name="z_neg">
+      <BCSymmetryPlane/>
+    </family>
+    <family name="z_pos">
+      <BCSymmetryPlane/>
+    </family>
+  </boundaries>
+  <materials>
+    <material name="Water">
+      <fluid>
+        <density>1.0</density>
+        <viscosityMolecular>0.1</viscosityMolecular>
+      </fluid>
+    </material>
+  </materials>
+  <bodyForces>
+    <apply>false</apply>
+    <userDefined>true</userDefined>
+  </bodyForces>
+
+  <extraQuantities />
+  <monitors>
+  </monitors>
+  <coprocessing />
+  <fsi />
+  <deformGrid />
+  <adaptiveGrid />
+  <massMomentumSolver>
+    <AndersonAcceleration>
+      <apply>true</apply>
+    </AndersonAcceleration>
+    <solverType name="SEGREGATED">
+      <segregated>
+        <solver>SIMPLE</solver>
+      </segregated>
+    </solverType>
+  </massMomentumSolver>
+</controls>
