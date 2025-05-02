@@ -1,9 +1,11 @@
 # exaSolver: Exascale Neural Sparse Linear Solver
 
 ## Introduction
-exaSolver is a scalable, modular, and high-performance neural solver for large sparse linear systems, built on graph neural networks (GNNs) and designed for both local and high-performance computing (HPC) environments. It supports distributed training (DDP/FSDP), robust experiment tracking, and advanced research features such as Jacobi hybrid iterations.
+exaSolver is a scalable, modular, and high-performance neural solver for large sparse linear systems, built on graph neural networks (GNNs) and designed for both local and high-performance computing (HPC) environments. It supports distributed training (DDP/FSDP), robust experiment tracking, and advanced research features such as Jacobi hybrid iterations. 
+The current architecture is displayed in the image below, and can be tuned in `L1_exaMLSolver/exa_solver/gnn.py`. 
 
-![exaSolver GNN Architecture Design](arq_image.png)
+<img src="arq_image.png" alt="exaSolver GNN Architecture Design" width="650">
+
 ---
 
 ## Features
