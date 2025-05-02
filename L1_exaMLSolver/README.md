@@ -235,27 +235,28 @@ srun python -m exa_solver train /path/to/config.yaml --output-dir /path/to/outpu
 - **Inlet nodes** are specific row or column indices in `A_indices` that you identify as being on the inflow boundary.
 - **`A_values`** gives the weights or coefficients for connections defined by these indices, but does not define the inlet velocities themselves.
 
-### Why Pass Indices (`A_indices`) and Values (`A_values`) Separately?
+### Adding New Feature Vectors
 
-#### 1. Graph Representation
-- **Graph Neural Networks (GNNs)** require adjacency information (edges) as indices (`edge_index`) and attributes (`edge_attr`).
-- **`A_indices`** directly translates to `edge_index` (which nodes are connected).
-- **`A_values`** translates to `edge_attr` (weights of the connections).
+To further enrich your dataset or model, you may want to add new feature vectors representing additional matrix or graph properties. Common examples include:
 
-#### 2. Memory Efficiency
-- Storing the sparse matrix as indices and values is more memory-efficient than passing the full matrix, especially for large sparse systems.
-- Passing a dense representation would waste memory and computational resources for the many zero entries.
+- `bandwidth`
+- `spectral_radius`
+- `condition_number`
+- `l1_norm`
+- `l2_norm`
+- `frobenius_norm`
+- `infinity_norm`
+- `sparsity`
+- `diagonal_dominance_norm`
+- `mean_row-wise_diagonal_dominance`
 
-#### 3. Framework Compatibility
-- Frameworks like PyTorch Geometric work with edge lists (indices) and attributes (values) to construct graphs dynamically.
-- GNN operations, like message passing, operate on edge-based representations, making separate `A_indices` and `A_values` ideal.
+**How to add new features:**
+- Compute the desired property for each matrix or graph sample during preprocessing.
+- Add the new feature(s) to your node or graph feature vectors in your data pipeline.
+- Update your model and configuration to expect and utilize the new feature(s).
+- Document any new features in your config and data documentation for clarity.
 
-#### 4. Flexibility
-- By passing indices and values separately:
-  - You can apply transformations to either one without recomputing the entire matrix.
-  - You can easily augment or modify edges (e.g., adding self-loops, applying attention mechanisms).
-
-**Summary:** For GNNs, using `A_indices` and `A_values` aligns with graph processing operations and allows finer control over graph features and structures.
+This extensibility allows exaSolver to adapt to new scientific domains and leverage additional structural information for improved learning and inference.
 
 ---
 
