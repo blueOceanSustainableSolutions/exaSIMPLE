@@ -376,9 +376,8 @@ These normalized metrics allow for error comparison across systems of different 
 ## References & Acknowledgements
 - Built on PyTorch, PyTorch Lightning, and PyTorch Geometric.
 - Contributions and feedback welcome!
-- This work builds upon the previous work by Grementieri & Galeone (2022).
+- This work builds upon the previous work by Grementieri & Galeone (2022). 
 
-Grementieri, L. and Galeone, P. (2022) Towards Neural Sparse Linear Solvers. arXiv. Available from: https://arxiv.org/abs/2203.06944 
----
+Grementieri, L. and Galeone, P. (2022) Towards Neural Sparse Linear Solvers. arXiv. Available from: https://arxiv.org/abs/2203.06944
 
 For further help, please refer to the code comments, config examples, or open an issue.
