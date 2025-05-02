@@ -1,0 +1,28 @@
+ARCHITECTURE:
+    DEPTH: 7
+    NAME: GNNSolver
+    WIDTH: 128
+DATASET:
+    AUGMENTATIONS:
+    -   DEGREE: 20
+        NAME: JacobiAugmentation
+    TRAIN:
+        DIRECTORY: train_dir
+        NUM_MATRICES: train_count
+    TEST:
+        DIRECTORY: test_dir
+        NUM_MATRICES: test_count
+OPTIMIZER:
+    BATCH_SIZE: 64
+    EPOCHS: 500
+    LEARNING_RATE: 0.001
+    NAME: Adam
+    WEIGHT_DECAY: 0.0
+SCHEDULER:
+    GAMMA: 0.8
+    MILESTONES:
+    - 250
+    - 280
+    NAME: MultiStepLR
+TEST:
+    BATCH_SIZE: 64
