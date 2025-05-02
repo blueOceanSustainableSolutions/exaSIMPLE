@@ -27,7 +27,7 @@ conda create -n exa_solver python=3.9
 conda activate exa_solver
 ```
 
-### 2. Install CUDA (if using GPU)
+### 2. Install CUDA
 Ensure CUDA 11.8+ is available. On clusters, use your scheduler's module system, e.g.:
 ```bash
 module load CUDA/11.8.0
@@ -143,9 +143,49 @@ CONVERGENCE:
 
 ## Data Preparation
 - **Format:** Data should be stored in directories for training and testing, each containing graph-structured sparse matrices and associated features.
-- **Required Files:** Each sample should include edge indices (`edge_index`), edge attributes (`edge_attr`), node features (`x`), and target vectors (`y`, `b`).
+- **Required Files:** Each sample should include edge indices (`edge_index`), edge attributes (`edge_attr`), node features (`x`), and target vectors (`y` / `b`).
 - **Augmentations:** Specify in config if using (e.g., JacobiAugmentation).
-- **Splitting:** Use your own script or symlinks to create train/test splits as needed.
+- **Splitting:** Use your own script or symlinks to create train/test splits as needed. See `L1_exaMLSolver/scripts` for useful utility scripts. 
+
+---
+
+## About the Features
+
+### Sparse Matrix Representation
+- **`A_values`**: Represents the value in the sparse matrix corresponding to each **(row, column)** index pair in `A_indices` (the `edge_index`).
+- **`A_indices`**: Does not represent node features or specific nodes directly—it represents connections (edges) between nodes in the graph (the `edge_attr`).
+
+### Inlet Nodes
+- These are specific **nodes** (e.g., rows or columns in the matrix) that correspond to the inflow boundary, and their **features** (such as velocities) are separate from `A_values`.
+- **Inlet nodes are implicitly defined** by their position in the sparse matrix (`A_indices`) and their association with features in `b`.
+- This is not explicitly labeled in the dataset but is derived from the problem structure.
+
+#### In Practice
+- **Inlet nodes** are specific row or column indices in `A_indices` that you identify as being on the inflow boundary.
+- **`A_values`** gives the weights or coefficients for connections defined by these indices, but does not define the inlet velocities themselves.
+
+### Adding New Feature Vectors
+
+To further enrich your dataset or model, you may want to add new feature vectors representing additional matrix or graph properties. Common examples include:
+
+- `bandwidth`
+- `spectral_radius`
+- `condition_number`
+- `l1_norm`
+- `l2_norm`
+- `frobenius_norm`
+- `infinity_norm`
+- `sparsity`
+- `diagonal_dominance_norm`
+- `mean_row-wise_diagonal_dominance`
+
+**How to add new features:**
+- Compute the desired property for each matrix or graph sample during preprocessing.
+- Add the new feature(s) to your node or graph feature vectors in your data pipeline.
+- Update your model and configuration to expect and utilize the new feature(s).
+- Document any new features in your config and data documentation for clarity.
+
+This extensibility allows exaSolver to adapt to new scientific domains and leverage additional structural information for improved learning and inference.
 
 ---
 
@@ -178,7 +218,7 @@ python -m exa_solver optuna /path/to/config.yaml
 
 ## HPC/Cluster Usage
 
-exaSolver is designed for distributed and HPC environments using DDP/FSDP. Example sbatch script (generalized):
+exaSolver is designed for distributed and HPC environments using DDP/FSDP. Example sbatch script:
 
 ```bash
 #!/bin/bash
@@ -217,46 +257,6 @@ srun python -m exa_solver train /path/to/config.yaml --output-dir /path/to/outpu
 - **Checkpoints:**
   - Best and latest checkpoints are saved in `/path/to/output/checkpoints/`.
   - Use these for resuming training, evaluation, or export.
-
----
-
-## About the Features
-
-### Sparse Matrix Representation
-- **`A_values`**: Represents the value in the sparse matrix corresponding to each **(row, column)** index pair in `A_indices`.
-- **`A_indices`**: Does not represent node features or specific nodes directly—it represents connections (edges) between nodes in the graph.
-
-### Inlet Nodes
-- These are specific **nodes** (e.g., rows or columns in the matrix) that correspond to the inflow boundary, and their **features** (such as velocities) are separate from `A_values`.
-- **Inlet nodes are implicitly defined** by their position in the sparse matrix (`A_indices`) and their association with features in `b`.
-- This is not explicitly labeled in the dataset but is derived from the problem structure.
-
-#### In Practice
-- **Inlet nodes** are specific row or column indices in `A_indices` that you identify as being on the inflow boundary.
-- **`A_values`** gives the weights or coefficients for connections defined by these indices, but does not define the inlet velocities themselves.
-
-### Adding New Feature Vectors
-
-To further enrich your dataset or model, you may want to add new feature vectors representing additional matrix or graph properties. Common examples include:
-
-- `bandwidth`
-- `spectral_radius`
-- `condition_number`
-- `l1_norm`
-- `l2_norm`
-- `frobenius_norm`
-- `infinity_norm`
-- `sparsity`
-- `diagonal_dominance_norm`
-- `mean_row-wise_diagonal_dominance`
-
-**How to add new features:**
-- Compute the desired property for each matrix or graph sample during preprocessing.
-- Add the new feature(s) to your node or graph feature vectors in your data pipeline.
-- Update your model and configuration to expect and utilize the new feature(s).
-- Document any new features in your config and data documentation for clarity.
-
-This extensibility allows exaSolver to adapt to new scientific domains and leverage additional structural information for improved learning and inference.
 
 ---
 
@@ -343,7 +343,7 @@ These normalized metrics allow for error comparison across systems of different 
 - `exa_solver/` — Core package (models, config, CLI, training logic)
 - `jacobi_hybrid_iterator/` — Optional advanced modules for Jacobi hybrid
 - `configs/` — Example configuration files
-- `scripts/` — Utility scripts (optional)
+- `scripts/` — Utility scripts 
 
 ### Extending exaSolver
 - Add new models to `gnn.py`.
