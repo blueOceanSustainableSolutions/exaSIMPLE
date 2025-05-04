@@ -109,6 +109,29 @@ dependencies:
 
 ## Usage
 
+exaSIMPLE is design to be used in HPC environments. For use with SLURM job scheduler an example job file is provided below:
+```
+#!/bin/bash
+#SBATCH -n {NUMBER OF TASKS}
+#SBATCH --nodes=1 
+#SBATCH --cpus-per-task=1
+#SBATCH --partition={PARTITION NAME}
+#SBATCH --job-name={JOB NAME}
+#SBATCH --time={JOB NAME}
+
+#Load ReFRESCO
+
+#Activate python enviroment
+conda activate {ENVIROMENT NAME}
+#or
+source {PATH TO ENV}/bin/activate
+
+srun -n {NUMBER OF TASKS}/2 --exclusive refresco > CFD_code.out &
+srun -n {NUMBER OF TASKS}/2 --exclusive python codeInterface_L2.py > python.out &
+
+wait
+
+```
 
 
 ## References
