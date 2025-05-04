@@ -113,8 +113,8 @@ dependencies:
 
 ## References
 
-[^1] C. M. Klaij and C. Vuik. SIMPLE-type Preconditioners for Cell-Centered, Colocated Finite Volume Discretization of Incompressible Reynolds-Averaged Navier–Stokes Equations. International Journal for Numerical Methods in Fluids, 71(7):830–849, 2013.
-[^2] C. M. Klaij. On the stabilization of finite volume methods with co-located variables for incompressible flow. Journal of Computational Physics, 297:84–89, 2015.
-[^3] C. M. Klaij, X. He, and C. Vuik. On the design of block preconditioners for maritime engineering. In MARINE VII: proceedings of the VII International Conference on Computational Methods in Marine Engineering, pages 893–904. CIMNE, 2017.
+[^1]: C. M. Klaij and C. Vuik. SIMPLE-type Preconditioners for Cell-Centered, Colocated Finite Volume Discretization of Incompressible Reynolds-Averaged Navier–Stokes Equations. International Journal for Numerical Methods in Fluids, 71(7):830–849, 2013.
+[^2]: C. M. Klaij. On the stabilization of finite volume methods with co-located variables for incompressible flow. Journal of Computational Physics, 297:84–89, 2015.
+[^3]: C. M. Klaij, X. He, and C. Vuik. On the design of block preconditioners for maritime engineering. In MARINE VII: proceedings of the VII International Conference on Computational Methods in Marine Engineering, pages 893–904. CIMNE, 2017.
 
 
