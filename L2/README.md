@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The SIMPLE algorithm can be written in matrix-vector form as shown in [^1, ^2, ^3]:
+The SIMPLE algorithm can be written in matrix-vector form as shown in [^1][^2][^3]:
 
 ![Pressure-correction](images/navier-stokes.png)
 
