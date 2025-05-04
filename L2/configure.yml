@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - pandas
+  - mpi4py
+  - petsc4py
+  - pip
+  - pip:
+      - filelock
