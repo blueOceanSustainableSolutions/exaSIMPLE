@@ -4,7 +4,7 @@
 
 The SIMPLE algorithm can be written in matrix-vector form as shown in [^1][^2][^3]:
 
-![Pressure-correction](images/navier-stokes.png)
+![Pressure-correction](images/pc_eq.png)
 
 This equation indicates that the pressure-velocity coupling in SIMPLE-like algorithms arises from the approximation of the inverse of the momentum matrix (Q^-1). By using a polynomial approximation of the inverse of Q, the L2 development aims at reducing the number of outer loops of the SIMPLE algorithm.
 
