@@ -4,7 +4,7 @@
 
 The SIMPLE algorithm can be written in matrix-vector form as shown in [^1][^2][^3]:
 
-![Pressure-correction](images/navier-stokes.png)
+![Pressure-correction](images/pc_eq.png)
 
 This equation indicates that the pressure-velocity coupling in SIMPLE-like algorithms arises from the approximation of the inverse of the momentum matrix (Q^-1). By using a polynomial approximation of the inverse of Q, the L2 development aims at reducing the number of outer loops of the SIMPLE algorithm.
 
@@ -137,8 +137,8 @@ The script codeInterface.py takes one of three arguments (diagInverse, approxInv
 
 ## References
 
-[^1] C. M. Klaij and C. Vuik. SIMPLE-type Preconditioners for Cell-Centered, Colocated Finite Volume Discretization of Incompressible Reynolds-Averaged Navier–Stokes Equations. International Journal for Numerical Methods in Fluids, 71(7):830–849, 2013.
-[^2] C. M. Klaij. On the stabilization of finite volume methods with co-located variables for incompressible flow. Journal of Computational Physics, 297:84–89, 2015.
-[^3] C. M. Klaij, X. He, and C. Vuik. On the design of block preconditioners for maritime engineering. In MARINE VII: proceedings of the VII International Conference on Computational Methods in Marine Engineering, pages 893–904. CIMNE, 2017.
+[^1]: C. M. Klaij and C. Vuik. SIMPLE-type Preconditioners for Cell-Centered, Colocated Finite Volume Discretization of Incompressible Reynolds-Averaged Navier–Stokes Equations. International Journal for Numerical Methods in Fluids, 71(7):830–849, 2013.
+[^2]: C. M. Klaij. On the stabilization of finite volume methods with co-located variables for incompressible flow. Journal of Computational Physics, 297:84–89, 2015.
+[^3]: C. M. Klaij, X. He, and C. Vuik. On the design of block preconditioners for maritime engineering. In MARINE VII: proceedings of the VII International Conference on Computational Methods in Marine Engineering, pages 893–904. CIMNE, 2017.
 
 
