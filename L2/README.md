@@ -25,7 +25,7 @@ The following Python depedencies are also needed:
 - pandas 
 - filelock
 
-Two configuration files are available in the configure direction. One uses a shell script to create a Python enviroment and install and dependencies:
+Two configuration files are available in the configure directory. One uses a shell script to create a Python enviroment and install and dependencies:
 ```
 #!/bin/bash
 
@@ -127,12 +127,13 @@ conda activate {ENVIROMENT NAME}
 source {PATH TO ENV}/bin/activate
 
 srun -n {NUMBER OF TASKS}/2 --exclusive refresco > CFD_code.out &
-srun -n {NUMBER OF TASKS}/2 --exclusive python codeInterface_L2.py > python.out &
+srun -n {NUMBER OF TASKS}/2 --exclusive python codeInterface_L2.py arg1 > python.out &
 
 wait
 
 ```
 
+The script codeInterface.py takes one of three arguments (diagInverse, approxInverse, approxInverse_w), which chooses the type of approximation for the momentum matrix inverse.
 
 ## References
 
