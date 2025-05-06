@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Prepare the grids
-rm -f gridStats.csv
-touch gridStats.csv
+#rm -f gridStats.csv
+#touch gridStats.csv
 echo "grid,nCells" >> gridStats.csv
 
 for grid in grids/*.cgns; do

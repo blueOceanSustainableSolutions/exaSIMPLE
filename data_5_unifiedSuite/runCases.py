@@ -9,7 +9,6 @@ import numpy as np
 import re
 import sys
 import os
-import time
 import shutil
 import pandas
 import subprocess
@@ -27,14 +26,14 @@ def update_nested_xml(root, tag, updates):
     """
     Update a parent XML element and its nested elements based on a dictionary of values.
     Optionally rename the parent element.
-
+    
     :param root: The root element of the XML.
     :param tag: The current tag name of the parent element to update.
     :param updates: Dictionary with tag names as keys and (text, attributes) tuples as values.
                     The parent tag updates should be included under the key 'self'.
     """
     parent = root.find(f".//{tag}")
-
+    
     if parent is not None:
         parent.tag = updates["bcType"]
 
@@ -123,16 +122,13 @@ caseDefinitions = {
 specialGridSettings = {
     "3D_Triangle_Delaunay": {
         "equations/equation/EQMomentum/applyEccentricityCorrection": "false",
-        "equations/equation/EQPressure/applyEccentricityCorrection": "false",
+        "equations/equation/EQPressure/applyEccentricityCorrection": "false",    
     }
 }
 
 subprocess.run("rm -f jobNames.txt && touch jobNames.txt", shell=True)
 
 for caseName in caseDefinitions:
-
-    # Reduce Marclus 4 queue spamming.
-    time.sleep(10)
 
     if os.path.isdir("./src/src_"+caseName):
         print("Compiling user code for:", caseName)
@@ -142,10 +138,11 @@ for caseName in caseDefinitions:
 
     # Loop over all the grids.
     for iGrid in grids.index:
-
-        # temp
-        #if (grids.loc[iGrid, "nCells"] > 200e3) or ("Triangle_Delaunay" not in grids.loc[iGrid, "grid"]):
-        #    continue
+    
+        # TODO temp
+        #if (grids.loc[iGrid, "nCells"] > 200e3) or ("3D" in grids.loc[iGrid, "grid"]):
+        if ("3D" in grids.loc[iGrid, "grid"]):
+            continue
 
         if "gridNameRegex" in caseDefinition:
             if len(re.findall(caseDefinition["gridNameRegex"], grids.loc[iGrid, "grid"])) == 0:
@@ -165,10 +162,10 @@ for caseName in caseDefinitions:
             root.findall("./grids/grid/gridFilePath")[0].text = "../../grids_refresco"
             root.findall("./outerLoop/maxIteration")[0].text = "{:d}".format(maxNoOuterLoops)
             root.findall("./outerLoop/convergenceToleranceLinf")[0].text = "{:.6e}".format(LinfTol)
-
+            
             if "3D" in grids.loc[iGrid, "grid"]:
                 root.findall("./equations/equation/EQMomentum/solve_z")[0].text = "true"
-
+            
             # Special settings for some "special" grids
             for g in specialGridSettings:
                 if g in grids.loc[iGrid, "grid"]:
@@ -226,3 +223,6 @@ for caseName in caseDefinitions:
 
         except FileExistsError:
             print("  Case dir exists! Remove it before running the case again.")
+        
+        #break
+
