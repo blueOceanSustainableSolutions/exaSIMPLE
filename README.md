@@ -7,3 +7,5 @@
 `L1_exaMLSolver` contains the full codebase for the exaSOLVER GNN pipeline
 
 `L2` contains the full codebase for the pressure-velocity coupling improvements
+
+Detailed user guides for each of these are contained in their respective repositories. 
