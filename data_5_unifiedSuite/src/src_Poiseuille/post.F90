@@ -22,7 +22,7 @@
 !        this module can be used to set up special post-processing routines. Use
 !          -post_outit to modify values in each outer iteration
 !          -post_timestep to modify values in each timestep
-!          -post_final to set values after the solution
+!          -post_final to set values after the solution 
 !           algorithm is finished or stopped
 !
 !***********************************************************************
@@ -59,14 +59,14 @@ REAL(dp), POINTER, PRIVATE :: error_v_c_3(:,:), error_p_c(:)
 REAL(dp), POINTER, PRIVATE :: exact_grad_v_c_33(:,:,:), exact_grad_p_c_3(:,:)
 REAL(dp), POINTER, PRIVATE :: error_grad_v_c_33(:,:,:), error_grad_p_c_3(:,:)
 REAL(dp), POINTER, PRIVATE :: hessian_p_c_33(:,:,:),exact_hessian_p_c_33(:,:,:)
-
+	
 PUBLIC post_initial,&
        post_init3,&
        post_init4,&
        post_init5,&
        post_restart,&
        post_timestep,&
-       post_adaptit,&
+       post_adaptit,&       
        post_outit,&
        post_final,&
        post_exit,&
@@ -77,12 +77,12 @@ CONTAINS
 !======================================================================
 SUBROUTINE post_read_controls
 !======================================================================
-
+		
   CALL tracing_trace_begin(trace_post_read_controls)
-
+		
   CALL tracing_trace_end(trace_post_read_controls)
 
-END SUBROUTINE post_read_controls
+END SUBROUTINE post_read_controls				
 
 !!  use this routine to set up linked lists, to get sizes or to allocate fields
 !======================================================================
@@ -110,25 +110,25 @@ SUBROUTINE post_init3
   CALL tracing_trace_end(trace_post_init3)
 
 END SUBROUTINE post_init3
-
+		
 !>  use *_init4 module for fielddata_init4,
-!<  equation_system_register_equation_system ... statements
+!<  equation_system_register_equation_system ... statements 
 !======================================================================
 SUBROUTINE post_init4
 !=====================================================================
 
   CALL tracing_trace_begin(trace_post_init4)
 
-
+      
   CALL tracing_trace_end(trace_post_init4)
-
+   
 END SUBROUTINE post_init4
 
 !! use *_init5 module for all *_get_pointer statements
 !======================================================================
 SUBROUTINE post_init5
 !=====================================================================
-
+	
   CALL tracing_trace_begin(trace_post_init5)
 
   CALL topology_get_size( nAllCells = nAllCells, &
@@ -140,7 +140,7 @@ SUBROUTINE post_init5
 
   CALL geometry_get_pointer(cent_c_3=cent_c_3)
   CALL geometry_get_pointer(vol_c=vol_c)
-
+ 
 	CALL fielddata_get_pointer("Velocity",        &
                            Field_3=v_c_3,     &
                            Grad_33=grad_v_c_33)
@@ -191,27 +191,27 @@ SUBROUTINE post_init5
 END SUBROUTINE post_init5
 
 !>
-!! use this to set initial values. To resolve dependencies between
-!! several *_initial modules this is called several times. Thus
-!! do not put ALLOCATE statements here.
+!! use this to set initial values. To resolve dependencies between 
+!! several *_initial modules this is called several times. Thus 
+!! do not put ALLOCATE statements here. 
 !<
 !======================================================================
 SUBROUTINE post_initial
 !=====================================================================
-
+		
   CALL tracing_trace_begin(trace_post_initial)
-
+		
   CALL tracing_trace_end(trace_post_initial)
 
 END SUBROUTINE post_initial
-
+    
 !!  use *_restart routines for restart
 !======================================================================
 SUBROUTINE post_restart
 !======================================================================
-
+    
   CALL tracing_trace_begin(trace_post_restart)
-
+    
   CALL tracing_trace_end(trace_post_restart)
 
 END SUBROUTINE post_restart
@@ -223,29 +223,29 @@ SUBROUTINE post_adaptit(adapt_iter)
 INTEGER, INTENT(IN) :: adapt_iter
 
   IF (.false.) PRINT *, STORAGE_SIZE(adapt_iter) ! avoid unused warning
-
+		
   CALL tracing_trace_begin(trace_post_adaptit)
-
+		
   CALL tracing_trace_end(trace_post_adaptit)
 
 END SUBROUTINE post_adaptit
-
+		
 !! this routine is executed after each timestep
 !======================================================================
 SUBROUTINE post_timestep(timestep,simultime)
 !======================================================================
 INTEGER, INTENT(IN)  :: timestep
 REAL(dp), INTENT(IN) :: simultime
-
+		
   IF (.false.) PRINT *, STORAGE_SIZE(timestep) ! avoid unused warning
   IF (.false.) PRINT *, STORAGE_SIZE(simultime) ! avoid unused warning
 
   CALL tracing_trace_begin(trace_post_timestep)
-
+		
   CALL tracing_trace_end(trace_post_timestep)
 
 END SUBROUTINE post_timestep
-
+		
 !! this routine is executed after each outer iteration
 !======================================================================
 SUBROUTINE post_outit(out_iter)
@@ -263,7 +263,7 @@ INTEGER   :: icell
     error_v_c_3(icell,:)        = v_c_3(icell,:) - exact_v_c_3(icell,:)
     ! Velocity gradient:
     error_grad_v_c_33(icell,:,:)= grad_v_c_33(icell,:,:) - exact_grad_v_c_33(icell,:,:)
-
+   
     ! Pressure:
     error_p_c(icell)          = p_c(icell) - exact_p_c(icell)
     ! Pressure gradient:
@@ -347,7 +347,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
     pos = cent_c_3(icell,:)
 
     ! Error p and derivatives (x,y,z)
-    error_p(1)   = p_c(icell) - exact_p_c(icell)
+    error_p(1)   = p_c(icell) - exact_p_c(icell) 
     error_p(2:4) = grad_p_c_3(icell,:) - exact_grad_p_c_3(icell,:)
 
     IF (hessian) THEN
@@ -368,35 +368,35 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
     !L1 norm with volume
     error_p_l1 = error_p_l1 + vol_c(icell)*abs(error_p)
     !L2 norm with volume
-    error_p_l2 = error_p_l2 + vol_c(icell)*error_p**2
+    error_p_l2 = error_p_l2 + vol_c(icell)*error_p**2  
     ! Linf (max) and their locations
     DO k=1,size(error_p)
       IF ( ABS(error_p(k)) > error_p_linf(k)) THEN
         error_p_linf(k)       = ABS(error_p(k))
         pos_p_error_linf(k,:) = pos
-      ENDIF
+      ENDIF   
     ENDDO
-
+    
     ! Error velocity components and their derivatives (x,y,z)
-    error_vel(:,1)   =       v_c_3(icell,:)   - exact_v_c_3(icell,:)
+    error_vel(:,1)   =       v_c_3(icell,:)   - exact_v_c_3(icell,:)  
     error_vel(:,2:4) = grad_v_c_33(icell,:,:) - exact_grad_v_c_33(icell,:,:)
     !L1 norm with volume
     error_vel_l1 = error_vel_l1 + vol_c(icell)*abs(error_vel)
     !L2 norm with volume
-    error_vel_l2 = error_vel_l2 + vol_c(icell)*error_vel**2
+    error_vel_l2 = error_vel_l2 + vol_c(icell)*error_vel**2  
     ! Linf (max) and their locations
     DO k=1,4 !loop over p,u,v and w
       DO dimens = 1,3
         IF ( ABS(error_vel(dimens,k)) > error_vel_linf(dimens,k)) THEN
           error_vel_linf(dimens,k)       = ABS(error_vel(dimens,k))
           pos_vel_error_linf(dimens,k,:) = pos
-        ENDIF
-      ENDDO
+        ENDIF 
+      ENDDO  
     ENDDO !loop over p,u,v and w
 
-    area = area + vol_c(icell)
+    area = area + vol_c(icell)    
     nInCells = nInCells + 1
-
+    
   END DO
 
   ! Final parallel operations
@@ -431,23 +431,23 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
 
   ! Writing
   IF (OnMaster) THEN ! Compatible with order program verificationSuite/data/order.F90:
-                     !   first quantities  u,v,w and p
+                     !   first quantities  u,v,w and p 
                      !   then du/dx, du/dy, du/dz, dv/dx, dv/dy, dv/dz, dw/dx, dw/dy, dw/dz
-                     !   then the pressure gradient,
+                     !   then the pressure gradient, 
                      !   then the airvolumefraction
                      !   and finally the hessian
     IF (hessian) THEN
       WRITE(unit_errors, '(I8,1P,27E25.12,A)') nInCells, dt, &
              error_vel_l1(1,1),  error_vel_l1(2,1),  error_vel_l1(3,1),  error_p_l1(1),  &
-             error_vel_l1(1,2:4),error_vel_l1(2,2:4),error_vel_l1(3,2:4),error_p_l1(2:4),  &
+             error_vel_l1(1,2:4),error_vel_l1(2,2:4),error_vel_l1(3,2:4),error_p_l1(2:4),  &  
              error_p_l1(14),error_p_l1(5:13), " # error_l1"
       WRITE(unit_errors, '(I8,1P,27E25.12,A)') nInCells, dt, &
              error_vel_l2(1,1),  error_vel_l2(2,1),  error_vel_l2(3,1),  error_p_l2(1),  &
-             error_vel_l2(1,2:4),error_vel_l2(2,2:4),error_vel_l2(3,2:4),error_p_l2(2:4),  &
+             error_vel_l2(1,2:4),error_vel_l2(2,2:4),error_vel_l2(3,2:4),error_p_l2(2:4),  &  
              error_p_l2(14),error_p_l2(5:13), " # error_l2"
       WRITE(unit_errors, '(I8,1P,27E25.12,A)') nInCells, dt, &
              error_vel_linf(1,1),  error_vel_linf(2,1),  error_vel_linf(3,1),  error_p_linf(1),  &
-             error_vel_linf(1,2:4),error_vel_linf(2,2:4),error_vel_linf(3,2:4),error_p_linf(2:4),  &
+             error_vel_linf(1,2:4),error_vel_linf(2,2:4),error_vel_linf(3,2:4),error_p_linf(2:4),  &  
              error_p_linf(14),error_p_linf(5:13), " # error_linf"
     ELSE
       WRITE(unit_errors, '(I8,1P,18E25.12,A)') nInCells, dt, &
@@ -463,7 +463,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
              error_vel_linf(1,2:4),error_vel_linf(2,2:4),error_vel_linf(3,2:4),error_p_linf(2:4), &
              error_p_linf(14), " # error_linf"
     END IF
-
+                                                         
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='p'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_p_error_linf(1,:), error_p_linf(1)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dp/dx'"
@@ -495,7 +495,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='Airvolumefraction'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_p_error_linf(14,:), error_p_linf(14)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='u'"
-    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(1,1,:), error_vel_linf(1,1)
+    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(1,1,:), error_vel_linf(1,1)     
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='du/dx'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(1,2,:), error_vel_linf(1,2)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='du/dy'"
@@ -503,7 +503,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='du/dz'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(1,4,:), error_vel_linf(1,4)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='v'"
-    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(2,1,:), error_vel_linf(2,1)
+    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(2,1,:), error_vel_linf(2,1)     
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dv/dx'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(2,2,:), error_vel_linf(2,2)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dv/dy'"
@@ -511,7 +511,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dv/dz'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(2,4,:), error_vel_linf(2,4)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='w'"
-    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(3,1,:), error_vel_linf(3,1)
+    WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(3,1,:), error_vel_linf(3,1)     
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dw/dx'"
     WRITE(unit_errorsLoc, '(1P,4E25.12)') pos_vel_error_linf(3,2,:), error_vel_linf(3,2)
     WRITE(unit_errorsLoc, '(A)')  "ZONE T='dw/dy'"
@@ -524,7 +524,7 @@ REAL(DP), DIMENSION(3,4,3) :: pos_vel_error_linf
 
 END SUBROUTINE post_final
 
-!! use *_exit module for DEALLOCATE statements etc.
+!! use *_exit module for DEALLOCATE statements etc. 
 !======================================================================
    SUBROUTINE post_exit
 !=====================================================================
@@ -536,3 +536,4 @@ END SUBROUTINE post_final
 END SUBROUTINE post_exit
 
 END MODULE post
+

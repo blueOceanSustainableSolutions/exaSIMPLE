@@ -20,7 +20,7 @@ gridPath = "./grids"
 
 baseCellCountPerDim = 10
 nGrids = 12
-gridDims = ["3D"]#"2D",
+gridDims = ["3D"]#"2D", 
 # NOTE: TirangleQuad and AdvancingFrontOrtho yield the same grid as Structured for a perfect box domain.
 cellTypes = ["Structured", "Triangle", "TriangleQuad"]
 unstrAlgorithms = {"2D": ["Delaunay", "AdvancingFront", "AdvancingFrontOrtho"], "3D": ["Delaunay"]}
@@ -44,7 +44,7 @@ for gridDim in gridDims:
         else:
             fac = 1.41
         Ncs = [int(np.round(baseCellCountPerDim*fac**i)) for i in range(nGrids)]
-
+        
         # Loop over each cell type.
         for cellType in cellTypes:
             # Loop over all unstructured algorithms - use a dummy for structured.
@@ -52,19 +52,19 @@ for gridDim in gridDims:
                 algos = [""]
             else:
                 algos = unstrAlgorithms[gridDim]
-
+                
             for unstrAlgorithm in algos:
-
+        
                 # Loop over each refinement level.
                 for iGrid, Nc in enumerate(Ncs):
                     gridType = cellType + "_" + unstrAlgorithm
-
+                
                     gridName = "boxGrid_{:.1f}x{:.1f}x{:.1f}_{:s}_{:s}_Nc_{:d}".format(
                             Lx, Ly, Lz, gridDim, gridType, Nc).replace("__", "_")
-
+                    
                     if os.path.isfile(os.path.join(gridPath, gridName+".cgns")):
                         continue
-
+            
                     print(gridName)
 
                     # Remove previously generated entities.
@@ -193,7 +193,7 @@ for gridDim in gridDims:
                     # Print cell count.
                     nCells = block.getCellCount()
                     glf.eval("puts {{  Finall cell count: {:,d}}}".format(nCells))
-
+                    
                     # Store the stats.
                     gridStats.append({
                         "grid": gridName,
@@ -212,3 +212,4 @@ glf.close()
 # Save stats.
 gridStats = pandas.DataFrame(gridStats)
 gridStats.to_csv("gridStats.csv", index=False)
+

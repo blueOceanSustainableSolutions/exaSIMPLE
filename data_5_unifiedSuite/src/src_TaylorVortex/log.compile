@@ -1,0 +1,18 @@
+compiling usercode-library named ./usercode/usercode.so
+(new) file common_user_code.F90 exists. Compiling ...
+compiling common_user_code.F90 ... object is common_user_code.o
+done
+(new) file post.F90 exists. Compiling ...
+compiling post.F90 ... object is post.o
+done
+(new) file set_bodyforce.F90 exists. Compiling ...
+compiling set_bodyforce.F90 ... object is set_bodyforce.o
+done
+(new) file set_phi.F90 exists. Compiling ...
+compiling set_phi.F90 ... object is set_phi.o
+done
+(new) file set_source.F90 exists. Compiling ...
+compiling set_source.F90 ... object is set_source.o
+done
+linking ./usercode/usercode.so ... done
+creating local copy of the refresco executable called 'refresco' that will load usercode from ./usercode/usercode.so... done

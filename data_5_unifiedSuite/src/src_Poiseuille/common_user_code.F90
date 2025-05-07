@@ -1,8 +1,8 @@
 
-
+	
 !***********************************************************************
 !>
-!!     User-defined module for possible routines common to other
+!!     User-defined module for possible routines common to other 
 !!     user-defined modules
 !!
 !!     Maritime Research Institute of Netherlands (MARIN)
@@ -24,8 +24,8 @@ MODULE common_user_code
 
 USE boundaries_controls
 USE main_controls
-USE equations
-USE equations_controls
+USE equations 
+USE equations_controls 
 USE fielddata
 USE geometry
 USE logging
@@ -36,32 +36,32 @@ USE tracing
 
 ! this macro will silence the compiler warning #7712 unused variables
 #define refresco_not_used(x) IF(.FALSE.) x=x
+    
 
-
-
-
+	
+          
 USE materials_controls
+          
+        
 
-
-
-
+	
 IMPLICIT NONE
 
 PRIVATE
 
 INTEGER,        PRIVATE :: nAllCells,nIntCells,NBndCells,nIntFaces,nBndFaces,nfamilies
+    
 
-
-
-
+	
+          
 REAL(dp), POINTER, PRIVATE :: cent_c_3(:,:)
 REAL(dp), POINTER, PRIVATE :: exact_v_c_3(:,:), exact_p_c(:)
 REAL(dp), POINTER, PRIVATE :: exact_grad_v_c_33(:,:,:), exact_grad_p_c_3(:,:),&
                               exact_hessian_p_c_33(:,:,:)
+          
+        
 
-
-
-
+	
 PUBLIC common_user_code_initial,&
        common_user_code_init0,&
        common_user_code_init3,&
@@ -76,81 +76,81 @@ PUBLIC common_user_code_initial,&
        common_user_code_read_controls
 
 CONTAINS
+    
 
-
-
-
-!! Use this routine for coding at the earliest stage of the computation
+	
+		
+!! Use this routine for coding at the earliest stage of the computation 
 !======================================================================
    SUBROUTINE common_user_code_init0
 !======================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_init0)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_init0)
 
 END SUBROUTINE common_user_code_init0
+      
+	
 
-
-
-
-
+	
+		
 !======================================================================
    SUBROUTINE common_user_code_read_controls
 !=====================================================================
 
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_read_controls)
+      
 
+		
+            
+                    
+          
 
-
-
-
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_read_controls)
 
 END SUBROUTINE common_user_code_read_controls
+      
+	
+       
 
-
-
-
-
-
-!> Use this to set initial values. To resolve dependencies between
-!! several *_initial modules this is called several times. Thus
-!< do not put ALLOCATE statements here.
+	
+		
+!> Use this to set initial values. To resolve dependencies between 
+!! several *_initial modules this is called several times. Thus 
+!< do not put ALLOCATE statements here. 
 !======================================================================
    SUBROUTINE common_user_code_initial
 !=====================================================================
+      
 
-
-
-
-INTEGER :: icell,bgMaterialLoc
+		
+            
+INTEGER :: icell,bgMaterialLoc 
 REAL(DP) :: rho,mu,x,y,z
+            
+          
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_initial)
+      
 
-
-
-
+		
+            
 ! density and viscosity
 bgMaterialLoc = materials_controls_get_element_by_name(controls%general%material)
 rho=controls%materials%material(bgMaterialLoc)%fluid%density
@@ -186,32 +186,32 @@ DO icell=1,nAllCells
   exact_hessian_p_c_33(icell,1:3,1:3) = 0.0D0
 
 END DO
+            
+          
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_initial)
 
 END SUBROUTINE common_user_code_initial
+      
+	
 
-
-
-
-
-!! Use this routine to set up linked lists, to get sizes or to allocate fields
+	
+		
+!! Use this routine to set up linked lists, to get sizes or to allocate fields 
 !======================================================================
    SUBROUTINE common_user_code_init3
 !======================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_init3)
+      
 
-
-
-
+		
+            
 CALL geometry_get_pointer(cent_c_3 = cent_c_3)
 CALL fielddata_register_field("ExactVelocity",      &
                               ndim = 3,             &
@@ -228,63 +228,63 @@ CALL fielddata_register_field("ExactPressure",      &
                               hasGradients=.TRUE.,  &
                               hasHessian=.TRUE.,    &
                               toSaveGradients=.TRUE.)
+            
+          
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_init3)
 
 END SUBROUTINE common_user_code_init3
+      
+	
 
-
-
-
-
+	
+		
 !> Use *_init4 module for fielddata_init4,
-!< equation_system_register_equation_system ... statements
+!< equation_system_register_equation_system ... statements 
 !======================================================================
    SUBROUTINE common_user_code_init4
 !=====================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_init4)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_init4)
-
+   
 END SUBROUTINE common_user_code_init4
+    
+	
 
-
-
-
-
-!! Use *_init5 module for all *_get_pointer statements
+	
+		
+!! Use *_init5 module for all *_get_pointer statements 
 !======================================================================
    SUBROUTINE common_user_code_init5
 !=====================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_init5)
-
+   
     CALL topology_get_size( nAllCells = nAllCells, &
                             nIntCells = nIntCells, &
                             NBndCells = NBndCells,&
                             nIntFaces = nIntFaces,&
                             nBndFaces = nBndFaces,&
                             nfamilies = nfamilies)
+      
 
-
-
-
+		
+            
 CALL fielddata_get_pointer("ExactVelocity", &
                            Field_3=exact_v_c_3, &
                            Grad_33=exact_grad_v_c_33)
@@ -292,72 +292,72 @@ CALL fielddata_get_pointer("ExactPressure", &
                            Field=exact_p_c, &
                            Grad_3=exact_grad_p_c_3, &
                            Hessian_33 = exact_hessian_p_c_33)
+            
+          
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_init5)
 
 END SUBROUTINE common_user_code_init5
+      
+	
 
-
-
-
-
-!! Reallocates variables. Remark: registered variables are reallocated
+	
+		
+!! Reallocates variables. Remark: registered variables are reallocated 
 !!  automatically.
 !======================================================================
    SUBROUTINE common_user_code_adapt_reallocate
 !=====================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_adapt_reallocate)
 
 ! example
 !CALL reall_resize(data_f,1,nIntFaces+nBndFaces,INITVALUE_DP)
 
+ 
+      
 
+		
 
-
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_adapt_reallocate)
 
 END SUBROUTINE common_user_code_adapt_reallocate
+      
+	
 
 
-
-
-
-!! Use *_restart routines for restart
+    
+!! Use *_restart routines for restart 
 !======================================================================
    SUBROUTINE common_user_code_restart
 !=====================================================================
+      
 
+    
 
-
-
-
+    
   CALL tracing_trace_begin(trace_common_user_code_restart)
+   
+      
 
+    
 
-
-
-
-
+    
   CALL tracing_trace_end(trace_common_user_code_restart)
 
 END SUBROUTINE common_user_code_restart
+      
+  
 
 
-
-
-
-
+	
+		
 !! This routine is only executed when called from other user coding
 !======================================================================
    SUBROUTINE common_user_code_timestep(timestep,simultime)
@@ -365,101 +365,101 @@ END SUBROUTINE common_user_code_restart
 
 INTEGER   :: timestep
 REAL(dp)  :: simultime
+      
 
+		
 
-
-
-
+		    
   refresco_not_used(timestep)  ! remove this when you use 'timestep'
   refresco_not_used(simultime) ! remove this when you use 'simultime'
   CALL tracing_trace_begin(trace_common_user_code_timestep)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_timestep)
 
 END SUBROUTINE common_user_code_timestep
+      
+	
 
-
-
-
-
+	
+		
 !! This routine is only executed when called from other user coding
 !======================================================================
    SUBROUTINE common_user_code_outit(out_iter)
 !======================================================================
 
 INTEGER :: out_iter
+      
 
+		
 
-
-
-
+		
   refresco_not_used(out_iter)  ! remove this when you use 'out_iter'
   CALL tracing_trace_begin(trace_common_user_code_outit)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_outit)
 
 END SUBROUTINE common_user_code_outit
+      
+	
 
-
-
-
-
+	
+		
 !> This routine is executed only once after the computation has stoped
-!! due to max no of iteration, truncation error or stopfile. It is not
+!! due to max no of iteration, truncation error or stopfile. It is not 
 !< executed when killfile is used
 !======================================================================
    SUBROUTINE common_user_code_final
 !======================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_final)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_final)
 
 END SUBROUTINE common_user_code_final
+      
+	
 
-
-
-
-
-!! Use *_exit module for DEALLOCATE statements etc.
+	
+		
+!! Use *_exit module for DEALLOCATE statements etc. 
 !======================================================================
    SUBROUTINE common_user_code_exit
 !=====================================================================
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_begin(trace_common_user_code_exit)
+      
 
+		
 
-
-
-
+		
   CALL tracing_trace_end(trace_common_user_code_exit)
 
 END SUBROUTINE common_user_code_exit
+      
+	
 
+	
 
-
-
-
-
+	
 END MODULE common_user_code
     
